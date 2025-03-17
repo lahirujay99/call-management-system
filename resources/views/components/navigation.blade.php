@@ -10,7 +10,7 @@
 
             {{-- --- DIV 2: Navigation Links Section --- --}}
             <div class="hidden sm:ml-6 sm:block">
-                <div class="bg-[#2D253A] flex space-x-4 rounded-md p-2">
+                <div class="bg-[#2D253A] flex space-x-4 rounded-md px-2">
                     <a href="#" class="text-white hover:bg-[#403852] hover:text-white rounded-md px-3 py-2 text-sm font-medium">Dashboard</a>
                     <a href="#" class="text-white hover:bg-[#403852] hover:text-white rounded-md px-3 py-2 text-sm font-medium">Advanced-Search</a>
                     <a href="#" class="text-white hover:bg-[#403852] hover:text-white rounded-md px-3 py-2 text-sm font-medium">Download</a>
@@ -73,7 +73,7 @@
             @auth {{-- Conditional Logout Link in Mobile Menu --}}
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="bg-[#2D253A] text-white block rounded-md px-3 py-2 text-base font-medium mt-4 text-center w-full">Logout</button>
+                <button type="submit" class="bg-[#2D253A] text-white block rounded-md px-3 text-base font-medium mt-4 text-center w-full">Logout</button>
             </form>
             @else {{-- Conditional Login Link in Mobile Menu --}}
             <a href="{{ route('login') }}" class="bg-[#2D253A] text-white block rounded-md px-3 py-2 text-base font-medium mt-4 text-center">Login</a>
