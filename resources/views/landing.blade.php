@@ -13,110 +13,38 @@
 
     <!-- Styles -->
     @vite('resources/css/app.css')
-    <style>
-        /* Custom CSS to replicate the original project's styles */
-        .background {
-            background-position: center center;
-            background-size: 100% 100%; /* or 'cover' for different effect */
-            background-repeat: no-repeat;
-            height: 700px; /* adjust as needed */
-        }
-
-        @media (max-width: 991px) {
-            .background {
-                background-size: cover; /* original CSS specified 'cover' on smaller screens */
-            }
-        }
-    </style>
 </head>
-<body class="antialiased font-mont bg-white">
+<body class="antialiased font-mont bg-white ...">
 
-<div class="relative"> {{-- container-fluid main equivalent --}}
+<div >
+    <div class="landing-page relative sm:flex selection:text-white  overflow-hidden mx-auto max-w-6xl my-4"> {{-- Main container set to landing-page, rounded corners added, max-w-7xl for responsiveness, overflow-hidden to clip rounded corners, border added, border-opacity-60, shadow-lg --}}
+        <div class="flex w-full p-5 shadow-lg"> {{-- Inner flex container for 50/50 split --}}
 
-    <nav class="absolute top-0 left-0 right-0 z-10 w-full bg-transparent p-2 md:p-4"> {{-- navbar navbar-default equivalent --}}
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8"> {{-- container-fluid within navbar --}}
-            <div class="flex justify-between items-center"> {{--  navbar-header + navbar-collapse flexbox for layout --}}
-                <div class="flex items-center"> {{-- navbar-header content --}}
-                    <div class="md:hidden"> {{-- navbar-toggle equivalent --}}
-                        <button type="button" class="text-white focus:outline-none focus:ring-2 focus:ring-white" aria-label="Toggle navigation"> {{-- navbar-toggle button --}}
-                            <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <a href="/" class="navbar-brand text-white text-xl md:text-2xl font-bold font-verdana">Website</a> {{-- navbar-brand with text styles --}}
-                </div>
-                <div class="hidden md:flex space-x-4"> {{-- collapse navbar-collapse equivalent --}}
-                    <a href="#" class="text-white hover:text-gray-200">About</a> {{-- nav navbar-nav items --}}
-                    <a href="#" class="text-white hover:text-gray-200">Contact Us</a>
+            {{-- --- Column 1: Image (Left - 50% Width, No Background) --- --}}
+            <div class="md:w-1/2 w-full"> {{-- md:w-1/2 sets 50% width on medium and up, w-full for mobile --}}
+                <img src="/images/landing.png" alt="Landing Page Cover Image" class="object-cover h-full w-full block"> {{-- Image as landing page cover, alt text updated --}}
+            </div>
+
+            {{-- --- Column 2: Description and Button (Right - 50% Width, White Background) --- --}}
+            <div class="md:w-1/2 w-full bg-white ... p-6 lg:p-16 flex flex-col justify-center"> {{-- md:w-1/2 for 50% width, bg-white added, description and button container --}}
+                <h1 class="text-[54px] font-semibold text-[#021526] leading-tight bg-clip-text">President's Secretariat <br> Call Center <br> Management <br> System
+                </h1>
+
+                <p class="mt-6 text-gray-600 leading-relaxed text-lg">
+
+                </p>
+
+                <div class="mt-10">
+                    <a href="{{ route('login') }}" class="inline-flex items-center bg-cyan-800 text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-cyan-600 focus:outline-none transition ease-in-out duration-150">
+                        Get Started {{-- "Get Started" Button --}}
+                    </a>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <div id="myCarousel" class="carousel carousel-fade slide relative" data-ride="carousel" data-interval="3000"> {{-- carousel, carousel-fade, slide equivalent --}}
-        <div class="carousel-inner relative w-full overflow-hidden" role="listbox"> {{-- carousel-inner equivalent --}}
-            {{-- REMOVED FIRST IMAGE: <div class="item active background a bg-a bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://static.pexels.com/photos/92090/pexels-photo-92090-large.jpeg')"></div> --}}
-            <div class="item active background b bg-b bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://static.pexels.com/photos/93750/pexels-photo-93750-large.jpeg')"></div> {{-- item background b, now ACTIVE as it's the first/only image --}}
-            {{-- REMOVED THIRD IMAGE: <div class="item background c bg-c bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://static.pexels.com/photos/76827/bahia-ocean-bay-boat-76827-large.jpeg')"></div> --}}
         </div>
     </div>
-
-    <div class="covertext absolute top-1/3 left-0 right-0"> {{-- covertext equivalent --}}
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8"> {{-- container for covertext content --}}
-            <div class="lg:w-10/12 mx-auto"> {{-- col-lg-10 equivalent --}}
-                <h1 class="title text-white text-center text-5xl md:text-6xl font-bold font-verdana">ELINE</h1> {{-- title text styles --}}
-                <h3 class="subtitle text-white text-center text-xl md:text-2xl font-verdana mt-2">A Tidy, Clean, Easy-to-Use, and Responsive Landing Page Template</h3> {{-- subtitle text styles --}}
-            </div>
-            <div class="explore mt-4 text-center"> {{-- explore styles --}}
-                <a href="{{ route('login') }}">
-                    <button type="button" class="explorebtn bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-full text-lg">Log In</button> {{-- explorebtn with Tailwind button styles --}}
-                </a>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 @vite('resources/js/app.js')
-<script>
-    // Basic JavaScript for carousel functionality (without Bootstrap JS dependency)
-    document.addEventListener('DOMContentLoaded', function() {
-        const carouselInner = document.querySelector('.carousel-inner');
-        const items = document.querySelectorAll('.item');
-        let currentIndex = 0;
-        let intervalTime = 3000;
-        let carouselInterval;
-
-        // --- ADJUSTMENT FOR REMOVED SLIDES: Reset currentIndex if it goes out of bounds ---
-        if (currentIndex >= items.length) {
-            currentIndex = 0; // Or handle it as needed if you expect no slides sometimes
-        }
-        // --- END ADJUSTMENT ---
-
-
-        function nextSlide() {
-            if (items.length <= 1) return; // Exit if only one or zero slides left
-            items[currentIndex].classList.remove('active');
-            currentIndex = (currentIndex + 1) % items.length;
-            items[currentIndex].classList.add('active');
-        }
-
-        function startCarousel() {
-            if (items.length <= 1) return; // Don't start carousel if only one or zero slides
-            carouselInterval = setInterval(nextSlide, intervalTime);
-        }
-
-        function pauseCarousel() {
-            clearInterval(carouselInterval);
-        }
-
-        // Optional: Pause on hover
-        // carouselInner.addEventListener('mouseover', pauseCarousel);
-        // carouselInner.addEventListener('mouseout', startCarousel);
-
-        startCarousel(); // Start carousel on page load
-    });
-</script>
 </body>
 </html>
