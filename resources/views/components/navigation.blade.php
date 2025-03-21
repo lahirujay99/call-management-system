@@ -5,8 +5,8 @@
             <div class="bg-gray-900 text-white rounded-full px-6 py-3 font-semibold hover:bg-gray-700 cursor-pointer md:hidden">
                 Logo
             </div>
-            <div class="hidden md:bg-gray-900 md:text-white md:rounded-full md:px-6 md:py-3 md:font-semibold md:hover:bg-gray-700 md:cursor-pointer md:block">
-                Logo
+            <div class="hidden md:block md:bg-gray-900 md:rounded-full md:hover:bg-gray-700 md:cursor-pointer">
+                <img src="{{ asset('images/icon.jpeg') }}" alt="Website Logo" class="h-12 w-auto rounded-full" />
             </div>
 
 
