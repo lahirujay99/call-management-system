@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-slate-100 ">
+    <body class="font-sans antialiased bg-slate-300 ">
     <x-navigation/>
     <div class="min-h-screen flex flex-col pt-[60px]">
 
