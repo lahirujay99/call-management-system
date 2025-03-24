@@ -26,17 +26,26 @@
             <nav
                 class="bg-black rounded-full shadow-input flex justify-center space-x-4 px-8 py-3 ">
                 <div class="relative ">
-                    <p class="cursor-pointer text-white hover:opacity-[0.9]">Dashboard</p>
+                    <a href="{{ route('dashboard') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Dashboard
+                    </a>
+
                 </div>
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="relative ">
-                        <p class="cursor-pointer text-white hover:opacity-[0.9]">Add New contact</p>
+                        <a href="{{ route('contacts.create') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Add
+                            New contact</a>
                     </div>
                 @elseif(auth()->check() && auth()->user()->isOperator())
                     <div class="relative ">
                         <p class="cursor-pointer text-white hover:opacity-[0.9]">Advanced-Search</p>
                     </div>
                 @endif
+                @if(auth()->check() && auth()->user()->isAdmin())
+                    <div class="relative ">
+                        <a href="{{ route('branches.create') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Add New Branch</a>
+                    </div>
+                @endif
+
             </nav>
         </div>
 
@@ -62,9 +71,11 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-md z-10">
             <nav class="flex flex-col px-4 py-2">
-                <p class="block py-2 cursor-pointer text-gray-700 hover:bg-gray-100">Dashboard</p>
+                <a href="{{ route('dashboard') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Dashboard
+                </a>
                 @if(auth()->check() && auth()->user()->isAdmin())
-                    <p class="block py-2 cursor-pointer text-gray-700 hover:bg-gray-100">Add contact</p>
+                    <a href="{{ route('contacts.create') }}"
+                       class="block py-2 cursor-pointer text-gray-700 hover:bg-gray-100">Add contact</a>
                 @elseif(auth()->check() && auth()->user()->isOperator())
                     <p class="block py-2 cursor-pointer text-gray-700 hover:bg-gray-100">Advanced-Search</p>
                 @endif
@@ -72,6 +83,12 @@
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <p class="block py-2 cursor-pointer text-gray-700 hover:bg-gray-100">Admin</p>
                 @endif
+                @if(auth()->check() && auth()->user()->isAdmin())
+                    <div class="relative ">
+                        <a href="{{ route('branches.create') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Add New Branch</a>
+                    </div>
+                @endif
+
                 <div class="py-2">
                     <div
                         class="bg-gray-900 text-white rounded-full px-6 py-3 font-semibold hover:bg-gray-700 cursor-pointer text-center">
