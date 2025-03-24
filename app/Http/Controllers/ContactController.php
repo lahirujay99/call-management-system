@@ -44,4 +44,55 @@ class ContactController extends Controller
         // 3. Redirect the user with a success message
         return redirect()->route('contacts.create')->with('success', 'Contact saved successfully!');
     }
+
+    /**
+     * Display a listing of the contacts.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $query = Contact::query()->with('branch'); // Eager load 'branch' relationship to avoid N+1 query problems
+
+        // **Search Functionality**
+        $search = $request->input('search');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', "%$search%")
+                    ->orWhere('last_name', 'like', "%$search%")
+                    ->orWhere('designation', 'like', "%$search%")
+                    ->orWhereHas('branch', function ($branchQuery) use ($search) { // Search within the branch name
+                        $branchQuery->where('name', 'like', "%$search%");
+                    })
+                    ->orWhere('extension_code', 'like', "%$search%")
+                    ->orWhere('personal_mobile', 'like', "%$search%");
+            });
+        }
+
+        // **Sorting Functionality**
+        $sortBy = $request->input('sortBy');
+        $sortDirection = $request->input('sortDirection', 'asc'); // Default sorting direction is ascending
+
+        if ($sortBy) {
+            if ($sortBy == 'branch') {
+                // Sort by branch name, requires a join or subquery, using subquery for simplicity here
+                $query->orderBy(
+                    Branch::select('name')
+                        ->whereColumn('branches.id', 'contacts.branch_id'),
+                    $sortDirection
+                );
+            } else {
+                $query->orderBy($sortBy, $sortDirection); // Sort by other contact fields
+            }
+        } else {
+            $query->latest('created_at'); // Default sorting: newest contacts first
+        }
+
+        $contacts = $query->paginate(8); // Fetch contacts with pagination (adjust number per page as needed)
+        $branches = Branch::all(); // Fetch all branches for dropdown filters (if you intend to use them later for filtering, not sorting in this version)
+
+
+        return view('dashboard', compact('contacts', 'branches', 'search')); // Pass data to the dashboard view
+    }
 }

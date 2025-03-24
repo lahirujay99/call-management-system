@@ -22,4 +22,11 @@ class Contact extends Model
         'extension_code',
         'personal_mobile',
     ];
+
+
+    // Define the relationship with Branch model
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }
