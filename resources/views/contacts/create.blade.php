@@ -47,16 +47,6 @@
                 </div>
             </div>
 
-            {{-- Branch Input Row --}}
-            {{--            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">--}}
-            {{--                <label for="branch" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">--}}
-            {{--                    Branch--}}
-            {{--                </label>--}}
-            {{--                <div class="border-l border-gray-300">--}}
-            {{--                    <input type="text" id="branch" name="branch"--}}
-            {{--                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
             <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
                 <label for="branch_id"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">

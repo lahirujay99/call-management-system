@@ -96,4 +96,51 @@ class ContactController extends Controller
 
         return view('dashboard', compact('contacts', 'branches', 'search')); // Pass data to the dashboard view
     }
+
+    /**
+     * Show the form for editing the specified contact.
+     *
+     * @param  \App\Models\Contact  $contact
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(Contact $contact)
+    {
+        return response()->json($contact); // Return contact data as JSON for the modal
+    }
+
+    /**
+     * Update the specified contact in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Contact  $contact
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Contact $contact)
+    {
+        // Validate request data (reuse validation rules from store or modify as needed)
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'designation' => 'required|string|max:255',
+            'branch_id' => 'required|exists:branches,id',
+            'extension_code' => 'nullable|string|max:20',
+            'personal_mobile' => 'required|string|max:20',
+            'active_status' => 'required|in:active,disable temporally',
+        ]);
+
+        $contact->update($validatedData); // Update the contact
+        return response()->json(['success' => 'Contact updated successfully']); // Return success JSON response
+    }
+
+    /**
+     * Remove the specified contact from storage.
+     *
+     * @param  \App\Models\Contact  $contact
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Contact $contact)
+    {
+        $contact->delete(); // Delete the contact
+        return response()->json(['success' => 'Contact deleted successfully']); // Return success JSON response
+    }
 }
