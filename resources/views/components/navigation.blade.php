@@ -24,25 +24,25 @@
 
         <div class="hidden md:block relative">
             <nav
-                class="bg-black rounded-full shadow-input flex justify-center space-x-4 px-8 py-3 ">
+                class="flex flex-row gap-5 bg-black px-6 py-3 font-semibold rounded-full ">
                 <div class="relative ">
-                    <a href="{{ route('dashboard') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Dashboard
+                    <a href="{{ route('dashboard') }}" class="cursor-pointer bg-white rounded-full text-black px-2 py-2">Dashboard
                     </a>
 
                 </div>
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="relative ">
-                        <a href="{{ route('contacts.create') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Add
+                        <a href="{{ route('contacts.create') }}" class="cursor-pointer bg-white rounded-full text-black px-2 py-2 ">Add
                             New contact</a>
                     </div>
                 @elseif(auth()->check() && auth()->user()->isOperator())
                     <div class="relative ">
-                        <p class="cursor-pointer text-white hover:opacity-[0.9]">Advanced-Search</p>
+                        <p class="cursor-pointer bg-white rounded-full text-black px-2 py-2">Advanced-Search</p>
                     </div>
                 @endif
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="relative ">
-                        <a href="{{ route('branches.create') }}" class="cursor-pointer text-white hover:opacity-[0.9]">Add New Branch</a>
+                        <a href="{{ route('branches.create') }}" class="cursor-pointer bg-white rounded-full  text-black px-2 py-2">Add New Branch</a>
                     </div>
                 @endif
 
