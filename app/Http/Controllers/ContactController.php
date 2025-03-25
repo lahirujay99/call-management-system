@@ -36,6 +36,7 @@ class ContactController extends Controller
             'branch_id' => 'required|exists:branches,id',
             'extension_code' => 'nullable|string|max:20',
             'personal_mobile' => 'required|string|max:20',
+            'active_status' => 'required|in:active,disable temporally',
         ]);
 
         // 2. Create a new Contact model instance and fill it with validated data

@@ -97,6 +97,22 @@
                 </div>
             </div>
 
+            {{-- Active Status Input Row --}}
+            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+                <label for="active_status"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Active Status
+                </label>
+                <div class="border-l border-gray-300">
+                    <select id="active_status" name="active_status"
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="disable temporally">Disable Temporally</option>
+                    </select>
+                </div>
+            </div>
+
             {{-- Save Button --}}
             <div class="mt-6 w-2/5 mx-auto">
                 <button type="submit"

@@ -87,6 +87,9 @@
                             Personal Num
                         </a>
                     </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Active Status {{-- NEW Header --}}
+                    </th>
                     <th scope="col" class="relative px-6 py-3">
                         <span class="sr-only">Edit</span>
                     </th>
@@ -113,6 +116,9 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->personal_mobile }}
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ ucwords(str_replace('_', ' ', $contact->active_status)) }} {{-- NEW Data Cell --}}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             @if(Auth::user()->isAdmin()) {{-- Show Edit link only for admin --}}
                             <a href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
@@ -121,7 +127,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center" colspan="7">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center" colspan="8">
                             No contacts found matching your search.
                         </td>
                     </tr>
