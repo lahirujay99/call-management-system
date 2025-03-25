@@ -128,9 +128,31 @@
                 @endforelse
                 </tbody>
             </table>
-
-            <div class="mt-4 px-4 py-3">  {{-- Pagination moved inside, bg-white class removed --}}
-                {{ $contacts->links() }} {{-- Pagination Links --}}
+            <hr class="mt-10 border-gray-400"/>
+            {{-- Pagination Buttons Moved INSIDE the INNER Container and in Grid --}}
+            <div class="mt-4 px-4 pb-3 grid grid-cols-2 gap-2">
+                <div class="flex justify-center"> {{-- Grid Item for Previous Button - Centered --}}
+                    @if ($contacts->onFirstPage())
+                        <span class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white cursor-default opacity-80"> {{-- Removed border classes --}}
+                            Previous
+                        </span>
+                    @else
+                        <a href="{{ $contacts->previousPageUrl() }}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white hover:bg-cyan-800"> {{-- Removed border classes --}}
+                            Previous
+                        </a>
+                    @endif
+                </div>
+                <div class="flex justify-center"> {{-- Grid Item for Next Button - Centered --}}
+                    @if ($contacts->hasMorePages())
+                        <a href="{{ $contacts->nextPageUrl() }}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white hover:bg-cyan-800"> {{-- Removed border classes --}}
+                            Next
+                        </a>
+                    @else
+                        <span class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white cursor-default opacity-80"> {{-- Removed border classes --}}
+                            Next
+                        </span>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
