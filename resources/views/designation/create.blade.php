@@ -3,7 +3,7 @@
     <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-5">
 
 
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Branch</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Designation</h2>
         <hr class="border-b border-gray-200 mb-6">
 
         @if (session('success'))
@@ -24,17 +24,17 @@
             </div>
         @endif
 
-        <form action="{{ route('branches.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('designation.store') }}" method="POST" class="space-y-6">
             @csrf
 
 
-            <h3 class="text-lg font-medium text-gray-700 mb-4">Branch Details</h3>
+            <h3 class="text-lg font-medium text-gray-700 mb-4">Designation Details</h3>
 
             {{-- Branch Name Input Row --}}
             <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
                 <label for="name"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
-                    Branch Name
+                    Designation Name
                 </label>
                 <div class="border-l border-gray-300">
                     <input type="text" id="name" name="name"

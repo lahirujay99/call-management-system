@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::middleware('auth')->group(function () {
     // Branch Routes
     Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create'); // Form to add new branch
     Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');      // Handle branch creation
+
+    // Designation Routes
+    Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); // Form to add new designation
+    Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');      // Handle designation creation
 
 });
 
