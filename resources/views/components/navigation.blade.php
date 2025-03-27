@@ -34,8 +34,8 @@
             </nav>
         </div>
 
-        <div class="flex flex-row gap-5 bg-gray-100 px-6 py-2 font-semibold rounded-md">
-            <div class=" rounded-md text-[#112D4E] px-2 py-1">
+        <div class="flex flex-row gap-5  px-6 py-2 font-semibold rounded-md">
+            <div class=" rounded-md text-[#112D4E] px-2 py-2">
                 @if(auth()->check() && auth()->user()->isAdmin())
                     Admin
                 @elseif(auth()->check() && auth()->user()->isOperator())
@@ -47,7 +47,7 @@
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="bg-[#3F72AF] rounded-md text-white px-2 py-1">Logout</button>
+                    <button type="submit" class="bg-[#3F72AF] rounded-md text-white px-2 py-2">Logout</button>
                 </form>
             </div>
         </div>

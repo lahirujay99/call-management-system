@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl overflow-x-auto mt-3"> {{-- INNER Container (White Table Area) --}}
+        <div class="bg-white rounded-bl-2xl rounded-br-2xl overflow-x-auto mt-3"> {{-- INNER Container (White Table Area) --}}
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                 <tr>
