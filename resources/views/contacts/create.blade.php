@@ -106,7 +106,7 @@
             {{-- Save Button --}}
             <div class="mt-6 w-2/5 mx-auto">
                 <button type="submit"
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-cyan-900 hover:bg-cyan-600 w-full">
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-[#F9F7F7] bg-[#112D4E] hover:bg-[#3F72AF] w-full">
                     Save
                 </button>
             </div>
