@@ -20,37 +20,37 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'first_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             First Name
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'last_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'last_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Last Name
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'designation', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'designation' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Designation
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'branch', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'branch' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Branch
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'extension_code', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'extension_code' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Extension
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'personal_mobile', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Personal Num
                         </a>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium **text-[#112D4E]** uppercase tracking-wider">
                         Active Status
                     </th>
                     <th scope="col" class="relative px-6 py-3">
@@ -99,31 +99,11 @@
                 </tbody>
             </table>
             <hr class="mt-10 border-gray-400"/>
-            {{-- Pagination Buttons --}}
-            <div class="mt-4 px-4 pb-3 grid grid-cols-2 gap-2">
-                <div class="flex justify-center"> {{-- Grid Item for Previous Button - Centered --}}
-                    @if ($contacts->onFirstPage())
-                        <span class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white cursor-default opacity-80"> {{-- Removed border classes --}}
-                            Previous
-                        </span>
-                    @else
-                        <a href="{{ $contacts->previousPageUrl() }}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white hover:bg-cyan-800"> {{-- Removed border classes --}}
-                            Previous
-                        </a>
-                    @endif
-                </div>
-                <div class="flex justify-center"> {{-- Grid Item for Next Button - Centered --}}
-                    @if ($contacts->hasMorePages())
-                        <a href="{{ $contacts->nextPageUrl() }}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white hover:bg-cyan-800"> {{-- Removed border classes --}}
-                            Next
-                        </a>
-                    @else
-                        <span class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-2xl bg-cyan-950 text-white cursor-default opacity-80"> {{-- Removed border classes --}}
-                            Next
-                        </span>
-                    @endif
-                </div>
+            {{-- Numbered Pagination Links --}}
+            <div class="mt-4 px-4 pb-3">  {{-- Container for Pagination Links - removed grid --}}
+                {{ $contacts->links() }}  {{-- Renders numbered pagination links --}}
             </div>
+        </div>
         </div>
 
         {{-- Edit Contact Modal --}}
