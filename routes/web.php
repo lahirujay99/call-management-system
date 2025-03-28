@@ -27,9 +27,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');      // Route for updating contact
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');   // Route for deleting contact
 
+//    // Branch Routes
+//    Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create'); // Form to add new branch
+//    Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');      // Handle branch creation
     // Branch Routes
-    Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create'); // Form to add new branch
-    Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');      // Handle branch creation
+    Route::get('/branches', [BranchController::class, 'index'])->name('branches.index'); // Index to show form and list
+    Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
+    Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create'); //Keep this for redirect in controller, not directly accessed
+    Route::delete('/branches/{branch}', [BranchController::class, 'destroy'])->name('branches.destroy');
+    Route::get('/branches/{branch}/edit', [BranchController::class, 'edit'])->name('branches.edit'); // For fetching data to edit modal
+    Route::put('/branches/{branch}', [BranchController::class, 'update'])->name('branches.update');   // For updating branch
 
     // Designation Routes
     Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); // Form to add new designation
