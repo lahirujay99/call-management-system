@@ -307,6 +307,61 @@
             editBranchModal.classList.add('hidden'); // Hide modal on cancel
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const addBranchForm = document.getElementById('addBranchForm'); // Form ID for Add Branch Form
+            const branchNameInput = document.getElementById('name'); // Input field in Add Branch Form
+
+            // --- Reusable Validation Functions (from contact form - you can put these in a separate .js file for better organization if needed) ---
+            function displayError(inputElement, errorMessage) { /* ... (your existing displayError function) ... */
+            }
+
+            function clearError(inputElement) { /* ... (your existing clearError function) ... */
+            }
+
+
+            // --- Validation Function for Branch Name (adjust regex as needed) ---
+            function isValidBranchName(name) {
+                return /^[a-zA-Z\s]+$/.test(name); // Letters and spaces only for branch names (same as names now)
+            }
+
+            // --- Keypress Event Listener for Branch Name Input Restriction ---
+            branchNameInput.addEventListener('keypress', function (event) {
+                const char = String.fromCharCode(event.charCode);
+                const newValue = this.value + char;
+                if (!isValidBranchName(newValue)) {
+                    event.preventDefault();
+                }
+            });
+
+            // --- Input Event Listener for Branch Name Error Display ---
+            branchNameInput.addEventListener('input', function () {
+                if (!isValidBranchName(this.value)) {
+                    displayError(this, 'Only letters and spaces are allowed in branch name.'); // Specific error message for branch name
+                } else {
+                    clearError(this);
+                }
+            });
+
+            // --- Form Submission Validation for Add Branch Form ---
+            addBranchForm.addEventListener('submit', function (event) {
+                clearError(branchNameInput); // Clear any previous errors
+
+                let hasErrors = false;
+
+                if (!isValidBranchName(branchNameInput.value)) {
+                    displayError(branchNameInput, 'Branch name is invalid. Only letters and spaces are allowed.'); // Specific error message
+                    hasErrors = true;
+                }
+
+                if (hasErrors) {
+                    event.preventDefault();
+                    alert('Please correct the errors in the form.');
+                }
+            });
+
+        });
+
+
     </script>
 
 </x-app-layout>

@@ -1,13 +1,11 @@
 <x-app-layout>
     <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-6">
 
-
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Contact</h2>
         <hr class="border-b border-gray-200 mb-6">
 
         <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6">
             @csrf
-
 
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
 
@@ -19,7 +17,8 @@
                 </label>
                 <div class="border-l border-gray-300">
                     <input type="text" id="first_name" name="first_name"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
                 </div>
             </div>
 
@@ -31,7 +30,8 @@
                 </label>
                 <div class="border-l border-gray-300">
                     <input type="text" id="last_name" name="last_name"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
                 </div>
             </div>
 
@@ -77,7 +77,8 @@
                 </label>
                 <div class="border-l border-gray-300">
                     <input type="text" id="extension_code" name="extension_code"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
                 </div>
             </div>
 
@@ -89,7 +90,8 @@
                 </label>
                 <div class="border-l border-gray-300">
                     <input type="text" id="personal_mobile" name="personal_mobile"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
                 </div>
             </div>
 
@@ -126,6 +128,18 @@
             const lastNameInput = document.getElementById('last_name');
             const personalMobileInput = document.getElementById('personal_mobile');
             const extensionCodeInput = document.getElementById('extension_code');
+
+            // Array of input elements where pasting should be disabled
+            const noPasteInputs = [firstNameInput, lastNameInput, extensionCodeInput, personalMobileInput];
+
+            // Loop through each input and add event listener
+            noPasteInputs.forEach(inputElement => {
+                inputElement.addEventListener('paste', function(event) {
+                    event.preventDefault(); // Prevent the paste action
+                    alert('Pasting is disabled in this field.'); // Optional: Inform the user why pasting is not allowed
+                });
+            });
+
 
             // --- Validation Functions (Updated isValidExtension and isValidMobile) ---
             function isValidExtension(extension) {

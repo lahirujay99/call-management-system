@@ -38,10 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/branches/{branch}/edit', [BranchController::class, 'edit'])->name('branches.edit'); // For fetching data to edit modal
     Route::put('/branches/{branch}', [BranchController::class, 'update'])->name('branches.update');   // For updating branch
 
-//    // Designation Routes
-//    Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); // Form to add new designation
-//    Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');      // Handle designation creation
-
     // Designation Routes
     Route::get('/designation', [DesignationController::class, 'index'])->name('designation.index'); // Index to show form and list
     Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');
