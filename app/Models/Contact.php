@@ -17,7 +17,7 @@ class Contact extends Model
     protected $fillable = [
         'first_name',
         'last_name',
-        'designation',
+        'designation_id', // Changed from 'designation' to 'designation_id'
         'branch_id',
         'extension_code',
         'personal_mobile',
@@ -29,5 +29,10 @@ class Contact extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+    // Define the relationship with Designation model
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
     }
 }

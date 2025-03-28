@@ -36,14 +36,20 @@
             </div>
 
             {{-- Designation Input Row --}}
+            {{-- Designation Dropdown Input Row --}}
             <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
-                <label for="designation"
+                <label for="designation_id"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Designation
                 </label>
                 <div class="border-l border-gray-300">
-                    <input type="text" id="designation" name="designation"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                    <select id="designation_id" name="designation_id"
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                        <option value="" disabled selected>Select Designation</option> {{-- Default option --}}
+                        @foreach($designations as $designation)
+                            <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

@@ -68,7 +68,7 @@
                             {{ $contact->last_name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $contact->designation }}
+                            {{ $contact->designation->name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->branch->name }}

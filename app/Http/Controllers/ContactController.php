@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\Branch;
+use App\Models\Designation;
 use Illuminate\Support\Facades\Redirect;
 
 class ContactController extends Controller
@@ -17,7 +18,8 @@ class ContactController extends Controller
     public function create()
     {
         $branches = Branch::all(); // Fetch all branches from the database
-        return view('contacts.create',compact('branches')); // Pass branches to the view
+        $designations = Designation::all(); // Fetch all designations from the database
+        return view('contacts.create',compact('branches', 'designations')); // Pass branches and designations to the view
     }
 
     /**
@@ -32,7 +34,7 @@ class ContactController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'designation' => 'required|string|max:255', // Validate that branch_id is selected from existing branches table and id column
+            'designation_id' => 'required|exists:designations,id', // Validation for designation_id
             'branch_id' => 'required|exists:branches,id',
             'extension_code' => 'nullable|string|max:20',
             'personal_mobile' => 'required|string|max:20',
@@ -54,7 +56,7 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Contact::query()->with('branch'); // Eager load 'branch' relationship to avoid N+1 query problems
+        $query = Contact::query()->with('branch','designation'); // Eager load 'branch' and 'designation' relationship to avoid N+1 query problems
 
         // **Search Functionality**
         $search = $request->input('search');
@@ -62,7 +64,9 @@ class ContactController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('first_name', 'like', "%$search%")
                     ->orWhere('last_name', 'like', "%$search%")
-                    ->orWhere('designation', 'like', "%$search%")
+                    ->orWhereHas('designation', function ($designationQuery) use ($search) { // Search within designation name
+                        $designationQuery->where('name', 'like', "%$search%");
+                    })
                     ->orWhereHas('branch', function ($branchQuery) use ($search) { // Search within the branch name
                         $branchQuery->where('name', 'like', "%$search%");
                     })
@@ -76,14 +80,22 @@ class ContactController extends Controller
         $sortDirection = $request->input('sortDirection', 'asc'); // Default sorting direction is ascending
 
         if ($sortBy) {
-            if ($sortBy == 'branch') {
-                // Sort by branch name, requires a join or subquery, using subquery for simplicity here
+            if ($sortBy == 'designation') {
+                // Sort by designation name
+                $query->orderBy(
+                    Designation::select('name')
+                        ->whereColumn('designations.id', 'contacts.designation_id'),
+                    $sortDirection
+                );
+            } else if ($sortBy == 'branch') {
+                // Sort by branch name
                 $query->orderBy(
                     Branch::select('name')
                         ->whereColumn('branches.id', 'contacts.branch_id'),
                     $sortDirection
                 );
-            } else {
+            }
+            else {
                 $query->orderBy($sortBy, $sortDirection); // Sort by other contact fields
             }
         } else {
@@ -92,9 +104,9 @@ class ContactController extends Controller
 
         $contacts = $query->paginate(8); // Fetch contacts with pagination (adjust number per page as needed)
         $branches = Branch::all(); // Fetch all branches for dropdown filters (if you intend to use them later for filtering, not sorting in this version)
+        $designations = Designation::all(); // Fetch all designations
 
-
-        return view('dashboard', compact('contacts', 'branches', 'search')); // Pass data to the dashboard view
+        return view('dashboard', compact('contacts', 'branches', 'designations', 'search')); // Pass data to the dashboard view
     }
 
     /**
@@ -121,7 +133,7 @@ class ContactController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
+            'designation_id' => 'required|exists:designations,id', // Validation for designation_id
             'branch_id' => 'required|exists:branches,id',
             'extension_code' => 'nullable|string|max:20',
             'personal_mobile' => 'required|string|max:20',
