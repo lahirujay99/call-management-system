@@ -127,18 +127,19 @@
             const personalMobileInput = document.getElementById('personal_mobile');
             const extensionCodeInput = document.getElementById('extension_code');
 
-            // --- Validation Functions (Updated isValidName) ---
-            function isValidName(name) {
-                return /^[a-zA-Z\s\-]+$/.test(name); // Removed apostrophe from regex
+            // --- Validation Functions (Updated isValidExtension and isValidMobile) ---
+            function isValidExtension(extension) {
+                return /^[0-9]+$/.test(extension); // Only digits allowed for extension
             }
 
             function isValidMobile(mobile) {
-                return /^[0-9\+\- ]+$/.test(mobile);
+                return /^[0-9]+$/.test(mobile);     // Only digits allowed for mobile
             }
 
-            function isValidExtension(extension) {
-                return /^[a-zA-Z0-9\+\-\#\* ]*$/.test(extension);
+            function isValidName(name) {
+                return /^[a-zA-Z\s]+$/.test(name);
             }
+
 
             function displayError(inputElement, errorMessage) {
                 let errorSpan = inputElement.nextElementSibling;
@@ -197,7 +198,7 @@
             // --- Input Event Listeners for Error Display ---
             firstNameInput.addEventListener('input', function() {
                 if (!isValidName(this.value)) {
-                    displayError(this, 'Only letters, spaces, and hyphens are allowed.');
+                    displayError(this, 'Only letters and spaces are allowed.');
                 } else {
                     clearError(this);
                 }
@@ -205,7 +206,7 @@
 
             lastNameInput.addEventListener('input', function() {
                 if (!isValidName(this.value)) {
-                    displayError(this, 'Only letters, spaces, and hyphens are allowed.');
+                    displayError(this, 'Only letters and spaces are allowed.');
                 } else {
                     clearError(this);
                 }
@@ -213,7 +214,7 @@
 
             personalMobileInput.addEventListener('input', function() {
                 if (!isValidMobile(this.value)) {
-                    displayError(this, 'Only digits, +, -, and spaces are allowed.');
+                    displayError(this, 'Only numbers are allowed in personal mobile number.'); // Updated error message
                 } else {
                     clearError(this);
                 }
@@ -221,7 +222,7 @@
 
             extensionCodeInput.addEventListener('input', function() {
                 if (!isValidExtension(this.value)) {
-                    displayError(this, 'Invalid characters in extension code.');
+                    displayError(this, 'Only numbers are allowed in extension code.'); // Updated error message
                 } else {
                     clearError(this);
                 }
@@ -238,19 +239,19 @@
                 let hasErrors = false;
 
                 if (!isValidName(firstNameInput.value)) {
-                    displayError(firstNameInput, 'First name is invalid.');
+                    displayError(firstNameInput, 'First name is invalid. Only letters and spaces are allowed.');
                     hasErrors = true;
                 }
                 if (!isValidName(lastNameInput.value)) {
-                    displayError(lastNameInput, 'Last name is invalid.');
+                    displayError(lastNameInput, 'Last name is invalid. Only letters and spaces are allowed.');
                     hasErrors = true;
                 }
                 if (!isValidMobile(personalMobileInput.value)) {
-                    displayError(personalMobileInput, 'Personal mobile is invalid.');
+                    displayError(personalMobileInput, 'Personal mobile is invalid. Only numbers are allowed.'); // Updated error message
                     hasErrors = true;
                 }
                 if (!isValidExtension(extensionCodeInput.value)) {
-                    displayError(extensionCodeInput, 'Extension code is invalid.');
+                    displayError(extensionCodeInput, 'Extension code is invalid. Only numbers are allowed.'); // Updated error message
                     hasErrors = true;
                 }
 
@@ -260,19 +261,6 @@
                 }
             });
 
-            // --- Initial Validation on Page Load ---
-            if (!isValidName(firstNameInput.value)) {
-                displayError(firstNameInput, 'Invalid first name format.');
-            }
-            if (!isValidName(lastNameInput.value)) {
-                displayError(lastNameInput, 'Invalid last name format.');
-            }
-            if (!isValidMobile(personalMobileInput.value)) {
-                displayError(personalMobileInput, 'Invalid mobile number format.');
-            }
-            if (!isValidExtension(extensionCodeInput.value)) {
-                displayError(extensionCodeInput, 'Invalid extension code format.');
-            }
 
         });
     </script>
