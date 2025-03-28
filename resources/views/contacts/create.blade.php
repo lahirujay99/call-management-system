@@ -127,9 +127,9 @@
             const personalMobileInput = document.getElementById('personal_mobile');
             const extensionCodeInput = document.getElementById('extension_code');
 
-            // --- Validation Functions (unchanged) ---
+            // --- Validation Functions (Updated isValidName) ---
             function isValidName(name) {
-                return /^[a-zA-Z\s\-']+$/.test(name);
+                return /^[a-zA-Z\s\-]+$/.test(name); // Removed apostrophe from regex
             }
 
             function isValidMobile(mobile) {
@@ -161,49 +161,118 @@
 
             // --- Keypress Event Listeners for Input Restriction ---
 
-            firstNameInput.addEventListener('keypress', function (event) {
-                const char = String.fromCharCode(event.charCode); // Get the character typed
-                if (!isValidName(this.value + char)) { // Test if adding the char makes the *current* value valid
-                    event.preventDefault(); // Prevent the character from being entered
-                }
-            });
-
-            lastNameInput.addEventListener('keypress', function (event) {
+            firstNameInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
-                if (!isValidName(this.value + char)) {
+                const newValue = this.value + char;
+                if (!isValidName(newValue)) {
                     event.preventDefault();
                 }
             });
 
-            personalMobileInput.addEventListener('keypress', function (event) {
+            lastNameInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
-                if (!isValidMobile(this.value + char)) {
+                const newValue = this.value + char;
+                if (!isValidName(newValue)) {
                     event.preventDefault();
                 }
             });
 
-            extensionCodeInput.addEventListener('keypress', function (event) {
+            personalMobileInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
-                if (!isValidExtension(this.value + char)) {
+                const newValue = this.value + char;
+                if (!isValidMobile(newValue)) {
+                    event.preventDefault();
+                }
+            });
+
+            extensionCodeInput.addEventListener('keypress', function(event) {
+                const char = String.fromCharCode(event.charCode);
+                const newValue = this.value + char;
+                if (!isValidExtension(newValue)) {
                     event.preventDefault();
                 }
             });
 
 
-            // --- Input Event Listeners for Error Display (unchanged) ---
-            firstNameInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+            // --- Input Event Listeners for Error Display ---
+            firstNameInput.addEventListener('input', function() {
+                if (!isValidName(this.value)) {
+                    displayError(this, 'Only letters, spaces, and hyphens are allowed.');
+                } else {
+                    clearError(this);
+                }
             });
-            lastNameInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+
+            lastNameInput.addEventListener('input', function() {
+                if (!isValidName(this.value)) {
+                    displayError(this, 'Only letters, spaces, and hyphens are allowed.');
+                } else {
+                    clearError(this);
+                }
             });
-            personalMobileInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+
+            personalMobileInput.addEventListener('input', function() {
+                if (!isValidMobile(this.value)) {
+                    displayError(this, 'Only digits, +, -, and spaces are allowed.');
+                } else {
+                    clearError(this);
+                }
             });
-            extensionCodeInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+
+            extensionCodeInput.addEventListener('input', function() {
+                if (!isValidExtension(this.value)) {
+                    displayError(this, 'Invalid characters in extension code.');
+                } else {
+                    clearError(this);
+                }
             });
 
 
-            // --- Form Submission Validation (unchanged) ---
-            contactForm.addEventListener('submit', function (event) { /* ... (your existing submit event listener) ... */
+            // --- Form Submission Validation ---
+            contactForm.addEventListener('submit', function(event) {
+                clearError(firstNameInput);
+                clearError(lastNameInput);
+                clearError(personalMobileInput);
+                clearError(extensionCodeInput);
+
+                let hasErrors = false;
+
+                if (!isValidName(firstNameInput.value)) {
+                    displayError(firstNameInput, 'First name is invalid.');
+                    hasErrors = true;
+                }
+                if (!isValidName(lastNameInput.value)) {
+                    displayError(lastNameInput, 'Last name is invalid.');
+                    hasErrors = true;
+                }
+                if (!isValidMobile(personalMobileInput.value)) {
+                    displayError(personalMobileInput, 'Personal mobile is invalid.');
+                    hasErrors = true;
+                }
+                if (!isValidExtension(extensionCodeInput.value)) {
+                    displayError(extensionCodeInput, 'Extension code is invalid.');
+                    hasErrors = true;
+                }
+
+                if (hasErrors) {
+                    event.preventDefault();
+                    alert('Please correct the errors in the form.');
+                }
             });
+
+            // --- Initial Validation on Page Load ---
+            if (!isValidName(firstNameInput.value)) {
+                displayError(firstNameInput, 'Invalid first name format.');
+            }
+            if (!isValidName(lastNameInput.value)) {
+                displayError(lastNameInput, 'Invalid last name format.');
+            }
+            if (!isValidMobile(personalMobileInput.value)) {
+                displayError(personalMobileInput, 'Invalid mobile number format.');
+            }
+            if (!isValidExtension(extensionCodeInput.value)) {
+                displayError(extensionCodeInput, 'Invalid extension code format.');
+            }
 
         });
     </script>
