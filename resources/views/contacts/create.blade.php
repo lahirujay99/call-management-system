@@ -118,4 +118,93 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.querySelector('form');
+            const firstNameInput = document.getElementById('first_name');
+            const lastNameInput = document.getElementById('last_name');
+            const personalMobileInput = document.getElementById('personal_mobile');
+            const extensionCodeInput = document.getElementById('extension_code');
+
+            // --- Validation Functions (unchanged) ---
+            function isValidName(name) {
+                return /^[a-zA-Z\s\-']+$/.test(name);
+            }
+
+            function isValidMobile(mobile) {
+                return /^[0-9\+\- ]+$/.test(mobile);
+            }
+
+            function isValidExtension(extension) {
+                return /^[a-zA-Z0-9\+\-\#\* ]*$/.test(extension);
+            }
+
+            function displayError(inputElement, errorMessage) {
+                let errorSpan = inputElement.nextElementSibling;
+                if (!errorSpan || !errorSpan.classList.contains('error-message')) {
+                    errorSpan = document.createElement('span');
+                    errorSpan.classList.add('error-message', 'text-red-500', 'text-sm', 'block', 'mt-1');
+                    inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
+                }
+                errorSpan.textContent = errorMessage;
+                inputElement.classList.add('is-invalid');
+            }
+
+            function clearError(inputElement) {
+                const errorSpan = inputElement.nextElementSibling;
+                if (errorSpan && errorSpan.classList.contains('error-message')) {
+                    errorSpan.remove();
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
+
+            // --- Keypress Event Listeners for Input Restriction ---
+
+            firstNameInput.addEventListener('keypress', function (event) {
+                const char = String.fromCharCode(event.charCode); // Get the character typed
+                if (!isValidName(this.value + char)) { // Test if adding the char makes the *current* value valid
+                    event.preventDefault(); // Prevent the character from being entered
+                }
+            });
+
+            lastNameInput.addEventListener('keypress', function (event) {
+                const char = String.fromCharCode(event.charCode);
+                if (!isValidName(this.value + char)) {
+                    event.preventDefault();
+                }
+            });
+
+            personalMobileInput.addEventListener('keypress', function (event) {
+                const char = String.fromCharCode(event.charCode);
+                if (!isValidMobile(this.value + char)) {
+                    event.preventDefault();
+                }
+            });
+
+            extensionCodeInput.addEventListener('keypress', function (event) {
+                const char = String.fromCharCode(event.charCode);
+                if (!isValidExtension(this.value + char)) {
+                    event.preventDefault();
+                }
+            });
+
+
+            // --- Input Event Listeners for Error Display (unchanged) ---
+            firstNameInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+            });
+            lastNameInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+            });
+            personalMobileInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+            });
+            extensionCodeInput.addEventListener('input', function () { /* ... (your existing input event listener) ... */
+            });
+
+
+            // --- Form Submission Validation (unchanged) ---
+            contactForm.addEventListener('submit', function (event) { /* ... (your existing submit event listener) ... */
+            });
+
+        });
+    </script>
 </x-app-layout>

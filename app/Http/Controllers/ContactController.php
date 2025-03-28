@@ -19,26 +19,26 @@ class ContactController extends Controller
     {
         $branches = Branch::all(); // Fetch all branches from the database
         $designations = Designation::all(); // Fetch all designations from the database
-        return view('contacts.create',compact('branches', 'designations')); // Pass branches and designations to the view
+        return view('contacts.create', compact('branches', 'designations')); // Pass branches and designations to the view
     }
 
     /**
      * Store a newly created contact in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         // 1. Validate the request data
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'designation_id' => 'required|exists:designations,id', // Validation for designation_id
-            'branch_id' => 'required|exists:branches,id',
-            'extension_code' => 'nullable|string|max:20',
-            'personal_mobile' => 'required|string|max:20',
-            'active_status' => 'required|in:active,disable temporally',
+            'first_name' => ['required', 'string', 'max:255'], // Very basic rules
+            'last_name' => ['required', 'string', 'max:255'],  // Very basic rules
+            'designation_id' => ['required', 'integer', 'exists:designations,id'],
+            'branch_id' => ['required', 'integer', 'exists:branches,id'],
+            'extension_code' => ['nullable', 'string', 'max:20'], // Basic rules
+            'personal_mobile' => ['required', 'string', 'max:20'], // Basic rules
+            'active_status' => ['required', 'in:active,disable temporally'],
         ]);
 
         // 2. Create a new Contact model instance and fill it with validated data
@@ -51,12 +51,12 @@ class ContactController extends Controller
     /**
      * Display a listing of the contacts.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
-        $query = Contact::query()->with('branch','designation'); // Eager load 'branch' and 'designation' relationship to avoid N+1 query problems
+        $query = Contact::query()->with('branch', 'designation'); // Eager load 'branch' and 'designation' relationship to avoid N+1 query problems
 
         // **Search Functionality**
         $search = $request->input('search');
@@ -94,8 +94,7 @@ class ContactController extends Controller
                         ->whereColumn('branches.id', 'contacts.branch_id'),
                     $sortDirection
                 );
-            }
-            else {
+            } else {
                 $query->orderBy($sortBy, $sortDirection); // Sort by other contact fields
             }
         } else {
@@ -112,7 +111,7 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified contact.
      *
-     * @param  \App\Models\Contact  $contact
+     * @param \App\Models\Contact $contact
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Contact $contact)
@@ -123,8 +122,8 @@ class ContactController extends Controller
     /**
      * Update the specified contact in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Contact  $contact
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Contact $contact
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Contact $contact)
@@ -147,7 +146,7 @@ class ContactController extends Controller
     /**
      * Remove the specified contact from storage.
      *
-     * @param  \App\Models\Contact  $contact
+     * @param \App\Models\Contact $contact
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Contact $contact)
