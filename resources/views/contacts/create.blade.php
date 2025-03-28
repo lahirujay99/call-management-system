@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-5">
+    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-6">
 
 
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Contact</h2>
