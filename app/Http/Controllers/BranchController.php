@@ -60,12 +60,17 @@ class BranchController extends Controller
      * Remove the specified branch from storage.
      *
      * @param  \App\Models\Branch  $branch
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse | \Illuminate\Http\JsonResponse
      */
     public function destroy(Branch $branch)
     {
         $branch->delete();
-        return redirect()->route('branches.index')->with('success', 'Branch deleted successfully!'); // Redirect back to index
+
+        if (request()->expectsJson()) { // Check if it's an AJAX request
+            return response()->json(['success' => 'Branch deleted successfully!']); // Return JSON for AJAX
+        } else {
+            return redirect()->route('branches.index')->with('success', 'Branch deleted successfully!'); // Redirect for regular requests (though in this case, likely always AJAX)
+        }
     }
 
     /**
