@@ -1,11 +1,11 @@
 <x-app-layout>
 
-    <div class="py-12">
+    <div class="pb-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div class=" overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 ">
 
-                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-5">
+                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl mb-5">
 
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Branch</h2>
                         <hr class="border-b border-gray-200 mb-6">
@@ -59,7 +59,7 @@
                     </div>
 
 
-                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-3xl my-5">
+                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl my-5">
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Existing Branches</h2>
                         <hr class="border-b border-gray-200 mb-6">
 

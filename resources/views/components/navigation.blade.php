@@ -8,7 +8,7 @@
         </div>
 
         <div class="hidden md:block relative">
-            <nav class="flex flex-row gap-5 rounded-md bg-[#F9F7F7] px-6 py-3 font-semibold rounded-s ">
+            <nav class="flex flex-row gap-5 px-6 py-3 font-semibold rounded-s ">
                 <div class="relative">
                     <a href="{{ route('dashboard') }}"
                        class="cursor-pointer {{ request()->routeIs('dashboard') ? 'bg-[#3F72AF] text-white' : 'text-[#112D4E]' }} rounded-md px-2 py-2">
