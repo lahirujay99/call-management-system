@@ -1,4 +1,4 @@
-<footer class="bg-[#112D4E] text-gray-400 py-4"> {{-- Example dark gray background and light text --}}
+<footer class="bg-[#1B262C] text-white py-4"> {{-- Example dark gray background and light text --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- Container to center content --}}
         <div class="flex justify-between items-center"> {{-- Flexbox for layout --}}
             <div>

@@ -1,7 +1,7 @@
 <x-app-layout>
 
-    <div class="bg-[#112D4E] rounded-3xl shadow-md overflow-hidden mx-auto max-w-7xl my-7"> {{-- Main OUTER Container --}}
-        <div class="px-4 py-3 border-gray-300 flex items-center space-x-4 bg-[#112D4E] rounded-t-lg">
+    <div class="bg-[#E7F2F8] rounded-3xl shadow-md overflow-hidden mx-auto max-w-7xl my-7"> {{-- Main OUTER Container --}}
+        <div class="px-4 py-3 border-gray-300 flex items-center space-x-4 bg-[#E7F2F8] rounded-t-lg">
 
             {{-- Search Bar --}}
             <div class="relative w-5/6 ">
