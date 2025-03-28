@@ -38,9 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/branches/{branch}/edit', [BranchController::class, 'edit'])->name('branches.edit'); // For fetching data to edit modal
     Route::put('/branches/{branch}', [BranchController::class, 'update'])->name('branches.update');   // For updating branch
 
+//    // Designation Routes
+//    Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); // Form to add new designation
+//    Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');      // Handle designation creation
+
     // Designation Routes
-    Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); // Form to add new designation
-    Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');      // Handle designation creation
+    Route::get('/designation', [DesignationController::class, 'index'])->name('designation.index'); // Index to show form and list
+    Route::post('/designation', [DesignationController::class, 'store'])->name('designation.store');
+    Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create'); //Keep this for redirect in controller, not directly accessed
+    Route::delete('/designation/{designation}', [DesignationController::class, 'destroy'])->name('designation.destroy');
+    Route::get('/designation/{designation}/edit', [DesignationController::class, 'edit'])->name('designation.edit'); // For fetching data to edit modal
+    Route::put('/designation/{designation}', [DesignationController::class, 'update'])->name('designation.update');   // For updating designation
 
 });
 

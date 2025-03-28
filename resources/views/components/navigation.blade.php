@@ -25,16 +25,16 @@
                 @endif
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="relative ">
-                        <a href="{{ route('branches.create') }}"
-                           class="cursor-pointer {{ request()->routeIs('branches.create') ? 'bg-[#3F72AF] text-white' : 'text-[#112D4E]' }} rounded-md px-2 py-2">
+                        <a href="{{ route('branches.index') }}"
+                           class="cursor-pointer {{ request()->routeIs('branches.index') ? 'bg-[#3F72AF] text-white' : 'text-[#112D4E]' }} rounded-md px-2 py-2">
                             Add New Branch
                         </a>
                     </div>
                 @endif
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="relative ">
-                        <a href="{{ route('designation.create') }}"
-                           class="cursor-pointer {{ request()->routeIs('designation.create') ? 'bg-[#3F72AF] text-white' : 'text-[#112D4E]' }} rounded-md px-2 py-2">
+                        <a href="{{ route('designation.index') }}"
+                           class="cursor-pointer {{ request()->routeIs('designation.index') ? 'bg-[#3F72AF] text-white' : 'text-[#112D4E]' }} rounded-md px-2 py-2">
                             Add New Designation
                         </a>
                     </div>

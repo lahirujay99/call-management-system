@@ -68,10 +68,10 @@
                             {{ $contact->last_name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $contact->designation->name }}
+                            {{ $contact->designation->name ?? "N/A" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $contact->branch->name }}
+                            {{ $contact->branch->name  ?? "N/A" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->extension_code }}
