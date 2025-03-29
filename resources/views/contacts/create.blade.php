@@ -16,9 +16,9 @@
                     First Name
                 </label>
                 <div class="border-l border-gray-300">
-                    <input type="text" id="first_name" name="first_name"
+                    <input type="text" id="first_name" name="first_name" required
                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
-                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
+                           onpaste="return false;">
                 </div>
             </div>
 
@@ -29,9 +29,9 @@
                     Last Name
                 </label>
                 <div class="border-l border-gray-300">
-                    <input type="text" id="last_name" name="last_name"
+                    <input type="text" id="last_name" name="last_name" required
                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
-                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
+                           onpaste="return false;">
                 </div>
             </div>
 
@@ -42,9 +42,9 @@
                     Designation
                 </label>
                 <div class="border-l border-gray-300">
-                    <select id="designation_id" name="designation_id"
+                    <select id="designation_id" name="designation_id" required
                             class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
-                        <option value="" disabled selected>Select Designation</option> {{-- Default option --}}
+                        <option value="" disabled selected>Select Designation</option>
                         @foreach($designations as $designation)
                             <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                         @endforeach
@@ -58,9 +58,9 @@
                     Branch
                 </label>
                 <div class="border-l border-gray-300">
-                    <select id="branch_id" name="branch_id"
+                    <select id="branch_id" name="branch_id" required
                             class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
-                        <option value="" disabled selected>Select Branch</option> {{-- Default option --}}
+                        <option value="" disabled selected>Select Branch</option>
                         @foreach($branches as $branch)
                             <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                         @endforeach
@@ -77,7 +77,7 @@
                 <div class="border-l border-gray-300">
                     <input type="text" id="extension_code" name="extension_code"
                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
-                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
+                           onpaste="return false;">
                 </div>
             </div>
 
@@ -88,9 +88,9 @@
                     Personal Mobile
                 </label>
                 <div class="border-l border-gray-300">
-                    <input type="text" id="personal_mobile" name="personal_mobile"
+                    <input type="text" id="personal_mobile" name="personal_mobile" required
                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
-                           onpaste="return false;"> {{-- ADD onpaste="return false;" --}}
+                           onpaste="return false;">
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
                     Active Status
                 </label>
                 <div class="border-l border-gray-300">
-                    <select id="active_status" name="active_status"
+                    <select id="active_status" name="active_status" required
                             class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
                         <option value="" disabled selected>Select Status</option>
                         <option value="active">Active</option>
@@ -127,6 +127,10 @@
             const lastNameInput = document.getElementById('last_name');
             const personalMobileInput = document.getElementById('personal_mobile');
             const extensionCodeInput = document.getElementById('extension_code');
+            const designationDropdown = document.getElementById('designation_id');
+            const branchDropdown = document.getElementById('branch_id');
+            const activeStatusDropdown = document.getElementById('active_status');
+
 
             // Array of input elements where pasting should be disabled
             const noPasteInputs = [firstNameInput, lastNameInput, extensionCodeInput, personalMobileInput];
@@ -134,19 +138,20 @@
             // Loop through each input and add event listener
             noPasteInputs.forEach(inputElement => {
                 inputElement.addEventListener('paste', function(event) {
-                    event.preventDefault(); // Prevent the paste action
-                    alert('Pasting is disabled in this field.'); // Optional: Inform the user why pasting is not allowed
+                    event.preventDefault();
+                    alert('Pasting is disabled in this field.');
                 });
             });
 
 
-            // --- Validation Functions (Updated isValidExtension and isValidMobile) ---
+            // --- Validation Functions ---
             function isValidExtension(extension) {
-                return /^[0-9]+$/.test(extension); // Only digits allowed for extension
+                return /^[0-9]+$/.test(extension);
             }
 
             function isValidMobile(mobile) {
-                return /^[0-9]+$/.test(mobile);     // Only digits allowed for mobile
+                const mobileRegex = /^[0-9]+$/;
+                return mobileRegex.test(mobile) && mobile.length >= 10 && mobile.length <= 12;
             }
 
             function isValidName(name) {
@@ -194,10 +199,14 @@
             personalMobileInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
-                if (!isValidMobile(newValue)) {
+
+                if (!/^[0-9]+$/.test(char)) { // Prevent non-digit input
+                    event.preventDefault();
+                } else if (this.value.length >= 12) { // Prevent input beyond 12 digits
                     event.preventDefault();
                 }
             });
+
 
             extensionCodeInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
@@ -226,16 +235,22 @@
             });
 
             personalMobileInput.addEventListener('input', function() {
-                if (!isValidMobile(this.value)) {
-                    displayError(this, 'Only numbers are allowed in personal mobile number.'); // Updated error message
-                } else {
-                    clearError(this);
+                const mobileValue = this.value; // Get current input value
+
+                if (mobileValue.length < 10 && mobileValue.length > 0) { // Check if less than 10 AND not empty
+                    displayError(this, 'Personal mobile number must be between 10 and 12 digits.'); // Show warning
+                } else if (!isValidMobile(mobileValue) && mobileValue.length > 0) { // If not valid after 10 digits, show full error
+                    displayError(this, 'Personal mobile number must be 10 to 12 digits and contain only numbers.');
+                }
+                else {
+                    clearError(this); // Clear error when valid or empty
                 }
             });
 
+
             extensionCodeInput.addEventListener('input', function() {
                 if (!isValidExtension(this.value)) {
-                    displayError(this, 'Only numbers are allowed in extension code.'); // Updated error message
+                    displayError(this, 'Only numbers are allowed in extension code.');
                 } else {
                     clearError(this);
                 }
@@ -248,23 +263,44 @@
                 clearError(lastNameInput);
                 clearError(personalMobileInput);
                 clearError(extensionCodeInput);
+                clearError(designationDropdown);
+                clearError(branchDropdown);
+                clearError(activeStatusDropdown);
+
 
                 let hasErrors = false;
 
-                if (!isValidName(firstNameInput.value)) {
+                const requiredFields = [
+                    { input: firstNameInput, message: 'First name is required.' },
+                    { input: lastNameInput, message: 'Last name is required.' },
+                    { input: designationDropdown, message: 'Designation is required.' },
+                    { input: branchDropdown, message: 'Branch is required.' },
+                    { input: personalMobileInput, message: 'Personal mobile is required.' },
+                    { input: activeStatusDropdown, message: 'Active status is required.' },
+                ];
+
+                requiredFields.forEach(field => {
+                    if (!field.input.value || field.input.value.trim() === '' || field.input.value === null) {
+                        displayError(field.input, field.message);
+                        hasErrors = true;
+                    }
+                });
+
+
+                if (!isValidName(firstNameInput.value) && firstNameInput.value.trim() !== '') {
                     displayError(firstNameInput, 'First name is invalid. Only letters and spaces are allowed.');
                     hasErrors = true;
                 }
-                if (!isValidName(lastNameInput.value)) {
+                if (!isValidName(lastNameInput.value)  && lastNameInput.value.trim() !== '') {
                     displayError(lastNameInput, 'Last name is invalid. Only letters and spaces are allowed.');
                     hasErrors = true;
                 }
-                if (!isValidMobile(personalMobileInput.value)) {
-                    displayError(personalMobileInput, 'Personal mobile is invalid. Only numbers are allowed.'); // Updated error message
+                if (!isValidMobile(personalMobileInput.value) && personalMobileInput.value.trim() !== '') {
+                    displayError(personalMobileInput, 'Personal mobile number must be 10 to 12 digits and contain only numbers.');
                     hasErrors = true;
                 }
-                if (!isValidExtension(extensionCodeInput.value)) {
-                    displayError(extensionCodeInput, 'Extension code is invalid. Only numbers are allowed.'); // Updated error message
+                if (!isValidExtension(extensionCodeInput.value) && extensionCodeInput.value.trim() !== '') {
+                    displayError(extensionCodeInput, 'Extension code is invalid. Only numbers are allowed.');
                     hasErrors = true;
                 }
 
@@ -285,7 +321,7 @@
                 icon: 'success',
                 title: 'Success!',
                 text: '{{ session('success') }}',
-                timer: 2000, // Optional: Auto-close after 2 seconds (adjust as needed)
+                timer: 2000,
             });
             @endif
 

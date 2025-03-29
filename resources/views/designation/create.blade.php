@@ -180,6 +180,70 @@
                 });
             }
 
+            // --- Reusable Validation Functions ---
+            function displayError(inputElement, errorMessage) {
+                let errorSpan = inputElement.nextElementSibling;
+                if (!errorSpan || !errorSpan.classList.contains('error-message')) {
+                    errorSpan = document.createElement('span');
+                    errorSpan.classList.add('error-message', 'text-red-500', 'text-sm', 'block', 'mt-1');
+                    inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
+                }
+                errorSpan.textContent = errorMessage;
+                inputElement.classList.add('is-invalid');
+            }
+
+            function clearError(inputElement) {
+                const errorSpan = inputElement.nextElementSibling;
+                if (errorSpan && errorSpan.classList.contains('error-message')) {
+                    errorSpan.remove();
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
+
+            // --- Validation Function for Designation Name ---
+            function isValidDesignationName(name) {
+                return /^[a-zA-Z\s]+$/.test(name); // Letters and spaces only for designation names (same as branch names)
+            }
+
+            const addDesignationForm = document.getElementById('addDesignationForm'); // Form ID for Add Designation Form
+            const designationNameInputValidation = document.getElementById('name'); // Input field in Add Designation Form
+
+            // --- Keypress Event Listener for Designation Name Input Restriction ---
+            designationNameInputValidation.addEventListener('keypress', function(event) {
+                const char = String.fromCharCode(event.charCode);
+                const newValue = this.value + char;
+                if (!isValidDesignationName(newValue)) {
+                    event.preventDefault();
+                }
+            });
+
+            // --- Input Event Listener for Designation Name Error Display ---
+            designationNameInputValidation.addEventListener('input', function() {
+                if (!isValidDesignationName(this.value)) {
+                    displayError(this, 'Only letters and spaces are allowed in designation name.'); // Specific error message for designation name
+                } else {
+                    clearError(this);
+                }
+            });
+
+            // --- Form Submission Validation for Add Designation Form ---
+            addDesignationForm.addEventListener('submit', function(event) {
+                clearError(designationNameInputValidation); // Clear any previous errors
+
+                let hasErrors = false;
+
+                if (!isValidDesignationName(designationNameInputValidation.value)) {
+                    displayError(designationNameInputValidation, 'Designation name is invalid. Only letters and spaces are allowed.'); // Specific error message
+                    hasErrors = true;
+                }
+
+                if (hasErrors) {
+                    event.preventDefault();
+                    alert('Please correct the errors in the form.');
+                }
+            });
+
+
             // --- Edit Designation Functionality ---
             const editDesignationModal = document.getElementById('editDesignationModal');
             const cancelEditDesignationModalButton = document.getElementById('cancelEditDesignationModalButton');

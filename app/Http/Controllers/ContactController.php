@@ -36,8 +36,8 @@ class ContactController extends Controller
             'last_name' => ['required', 'string', 'max:255'],  // Very basic rules
             'designation_id' => ['required', 'integer', 'exists:designations,id'],
             'branch_id' => ['required', 'integer', 'exists:branches,id'],
-            'extension_code' => ['nullable', 'string', 'max:20'], // Basic rules
-            'personal_mobile' => ['required', 'string', 'max:20'], // Basic rules
+            'extension_code' => ['nullable', 'string', 'max:10'], // Basic rules
+            'personal_mobile' => ['required', 'string', 'min:10', 'max:12'], // Basic rules
             'active_status' => ['required', 'in:active,disable temporally'],
         ]);
 
