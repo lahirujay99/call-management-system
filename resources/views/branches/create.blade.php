@@ -10,30 +10,10 @@
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Branch Management</h2> {{-- Updated main heading --}}
                         <hr class="border-b border-gray-200 mb-6">
 
-                        @if (session('success'))
-                            <div
-                                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                                role="alert">
-                                <strong class="font-bold">Success!</strong>
-                                <span class="block sm:inline">{{ session('success') }}</span>
-                            </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                                 role="alert">
-                                <strong class="font-bold">Error!</strong>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li><span class="block sm:inline">{{ $error }}</span></li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
                         <div class="mb-8"> {{-- Container for the Add Branch Form, adding some margin below it --}}
                             <h3 class="text-lg font-medium text-gray-700 mb-4">Add New Branch</h3>
-                            <form id="addBranchForm" action="{{ route('branches.store') }}" method="POST" class="space-y-6" autocomplete="off">
+                            <form id="addBranchForm" action="{{ route('branches.store') }}" method="POST" class="space-y-6"
+                                  autocomplete="off">
                                 @csrf
 
                                 {{-- Branch Name Input Row --}}
@@ -103,7 +83,8 @@
                                     @forelse ($branches as $branch)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $branch->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $branch->created_at->format('Y-m-d H:i:s') }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $branch->created_at->format('Y-m-d H:i:s') }}
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <button data-branch-id="{{ $branch->id }}"
                                                         class="edit-branch-btn text-indigo-600 hover:text-indigo-900 mr-2">
@@ -160,7 +141,8 @@
 
                             {{-- Branch Name Input Row --}}
                             <div class="grid grid-cols-1 gap-4">
-                                <label for="edit_branch_name" class="block text-sm font-medium text-gray-700 text-left">Branch
+                                <label for="edit_branch_name"
+                                       class="block text-sm font-medium text-gray-700 text-left">Branch
                                     Name</label>
                                 <input type="text" id="edit_branch_name" name="name"
                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
@@ -181,6 +163,7 @@
             </div>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Disable Paste Functionality for Branch Name Input ---
@@ -214,7 +197,13 @@
                             const responseData = await response.json(); // Attempt to parse JSON response
 
                             if (responseData.success) {
-                                alert(responseData.success); // Show the success message from server (optional, can replace with in-page message)
+                                Swal.fire({  // Using SweetAlert2 for delete success
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: responseData.success, // Message from server
+                                    timer: 2000,
+
+                                });
 
                                 // Remove the table row instead of full reload (smoother UI)
                                 const rowToRemove = buttonElement.closest('tr'); // Find the closest table row
@@ -287,7 +276,13 @@
 
                     const responseData = await response.json();
                     if (responseData.success) {
-                        alert(responseData.success); // Success message
+                        Swal.fire({  // Using SweetAlert2 for update success
+                            icon: 'success',
+                            title: 'Success!',
+                            text: responseData.success, // Message from server
+                            timer: 2000,
+
+                        });
 
                         editBranchModal.classList.add('hidden'); // Hide modal
 
@@ -319,11 +314,24 @@
             const addBranchForm = document.getElementById('addBranchForm'); // Form ID for Add Branch Form
             const branchNameInputValidation = document.getElementById('name'); // Input field in Add Branch Form
 
-            // --- Reusable Validation Functions (from contact form - you can put these in a separate .js file for better organization if needed) ---
-            function displayError(inputElement, errorMessage) { /* ... (your existing displayError function) ... */
+            // --- Reusable Validation Functions (from contact form) ---
+            function displayError(inputElement, errorMessage) {
+                let errorSpan = inputElement.nextElementSibling;
+                if (!errorSpan || !errorSpan.classList.contains('error-message')) {
+                    errorSpan = document.createElement('span');
+                    errorSpan.classList.add('error-message', 'text-red-500', 'text-sm', 'block', 'mt-1');
+                    inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
+                }
+                errorSpan.textContent = errorMessage;
+                inputElement.classList.add('is-invalid');
             }
 
-            function clearError(inputElement) { /* ... (your existing clearError function) ... */
+            function clearError(inputElement) {
+                const errorSpan = inputElement.nextElementSibling;
+                if (errorSpan && errorSpan.classList.contains('error-message')) {
+                    errorSpan.remove();
+                    inputElement.classList.remove('is-invalid');
+                }
             }
 
 
@@ -333,7 +341,7 @@
             }
 
             // --- Keypress Event Listener for Branch Name Input Restriction ---
-            branchNameInputValidation.addEventListener('keypress', function (event) {
+            branchNameInputValidation.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
                 if (!isValidBranchName(newValue)) {
@@ -342,7 +350,7 @@
             });
 
             // --- Input Event Listener for Branch Name Error Display ---
-            branchNameInputValidation.addEventListener('input', function () {
+            branchNameInputValidation.addEventListener('input', function() {
                 if (!isValidBranchName(this.value)) {
                     displayError(this, 'Only letters and spaces are allowed in branch name.'); // Specific error message for branch name
                 } else {
@@ -351,7 +359,7 @@
             });
 
             // --- Form Submission Validation for Add Branch Form ---
-            addBranchForm.addEventListener('submit', function (event) {
+            addBranchForm.addEventListener('submit', function(event) {
                 clearError(branchNameInputValidation); // Clear any previous errors
 
                 let hasErrors = false;
@@ -366,6 +374,17 @@
                     alert('Please correct the errors in the form.');
                 }
             });
+
+
+            // --- SweetAlert2 for Success Message after Form Submission ---
+            @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                timer: 2000, // Optional: Auto-close after 2 seconds
+            });
+            @endif
 
 
         });
@@ -384,8 +403,6 @@
                 alert('Pasting is disabled in the search field.');
             });
         }
-
-
     </script>
 
 </x-app-layout>

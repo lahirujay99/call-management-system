@@ -10,31 +10,11 @@
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Designation Management</h2> {{-- Updated main heading --}}
                         <hr class="border-b border-gray-200 mb-6">
 
-                        @if (session('success'))
-                            <div
-                                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                                role="alert">
-                                <strong class="font-bold">Success!</strong>
-                                <span class="block sm:inline">{{ session('success') }}</span>
-                            </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                                 role="alert">
-                                <strong class="font-bold">Error!</strong>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li><span class="block sm:inline">{{ $error }}</span></li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
 
                         <div class="mb-8"> {{-- Container for the Add Designation Form with margin --}}
                             <h3 class="text-lg font-medium text-gray-700 mb-4">Add New Designation</h3>
 
-                            <form action="{{ route('designation.store') }}" method="POST" class="space-y-6"
+                            <form action="{{ route('designation.store') }}" method="POST" id="addDesignationForm" class="space-y-6"
                                   autocomplete="off">
                                 @csrf
 
@@ -250,7 +230,13 @@
 
                     const responseData = await response.json();
                     if (responseData.success) {
-                        alert(responseData.success);
+                        Swal.fire({  // SweetAlert2 for update success
+                            icon: 'success',
+                            title: 'Success!',
+                            text: responseData.success,
+                            timer: 2000,
+
+                        });
                         editDesignationModal.classList.add('hidden');
 
                         // Update designation name in table
@@ -278,45 +264,73 @@
             });
 
 
-            // --- Delete Designation Functionality ---
+            // --- Delete Designation Functionality with Confirmation ---
             document.querySelectorAll('.delete-designation-btn').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const designationId = event.currentTarget.dataset.designationId;
                     const buttonElement = event.currentTarget;
 
-                    if (confirm('Are you sure you want to delete this designation?')) {
-                        try {
-                            const response = await fetch(`/designation/${designationId}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                    'Accept': 'application/json'
+                    Swal.fire({ // SweetAlert2 confirmation
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch(`/designation/${designationId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                        'Accept': 'application/json'
+                                    }
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
                                 }
-                            });
+                                const responseData = await response.json();
 
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
-                            }
-                            const responseData = await response.json();
+                                if (responseData.success) {
+                                    Swal.fire({ // SweetAlert2 success for delete
+                                        icon: 'success',
+                                        title: 'Deleted!',
+                                        text: responseData.success,
+                                        timer: 2000,
+                                    });
 
-                            if (responseData.success) {
-                                alert(responseData.success);
-
-                                const rowToRemove = buttonElement.closest('tr');
-                                if (rowToRemove) {
-                                    rowToRemove.remove();
+                                    const rowToRemove = buttonElement.closest('tr');
+                                    if (rowToRemove) {
+                                        rowToRemove.remove();
+                                    }
+                                } else {
+                                    alert('Failed to delete designation. ' + (responseData.message || ''));
                                 }
-                            } else {
-                                alert('Failed to delete designation. ' + (responseData.message || ''));
-                            }
 
-                        } catch (error) {
-                            console.error("Error deleting designation:", error);
-                            alert('Error deleting designation: ' + error.message);
+                            } catch (error) {
+                                console.error("Error deleting designation:", error);
+                                alert('Error deleting designation: ' + error.message);
+                            }
                         }
-                    }
+                    });
                 });
             });
+
+
+            // --- SweetAlert2 for Success Message after Form Submission ---
+            @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                timer: 2000, // Optional: Auto-close after 2 seconds
+            });
+            @endif
+
+
         });
 
         // --- Disable Paste and Autocomplete for Search Input & Restrict Characters ---

@@ -33,6 +33,7 @@ class BranchController extends Controller
 
         Branch::create($validatedData);
 
+        // Set success flash message for SweetAlert
         return redirect()->route('branches.index')->with('success', 'Branch added successfully!');
     }
 
@@ -100,5 +101,4 @@ class BranchController extends Controller
         $branch->update($validatedData);
         return response()->json(['success' => 'Branch updated successfully']); // Return success JSON
     }
-
 }
