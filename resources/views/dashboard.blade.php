@@ -11,7 +11,7 @@
                     </svg>
                 </div>
                 <form action="{{ route('dashboard') }}" method="GET">
-                    <input type="text" name="search" id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" placeholder="Search" value="{{ $search ?? '' }}">
+                    <input type="text" name="search" id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" placeholder="Search" value="{{ $search ?? '' }}" autocomplete="off" onpaste="return false;">
                 </form>
             </div>
         </div>
@@ -104,63 +104,62 @@
                 {{ $contacts->links() }}  {{-- Renders numbered pagination links --}}
             </div>
         </div>
-        </div>
+    </div>
 
-        {{-- Edit Contact Modal --}}
-        <div id="editContactModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                            Edit Contact
-                        </h3>
-                        <div class="mt-2">
-                            <form id="editContactForm" class="space-y-6">
-                                @csrf
-                                @method('PUT') {{-- Method spoofing for PUT request --}}
+    {{-- Edit Contact Modal --}}
+    <div id="editContactModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Edit Contact
+                    </h3>
+                    <div class="mt-2">
+                        <form id="editContactForm" class="space-y-6">
+                            @csrf
+                            @method('PUT') {{-- Method spoofing for PUT request --}}
 
-                                {{-- Form fields similar to create form --}}
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_first_name" class="block text-sm font-medium text-gray-700 text-left">First Name</label>
-                                    <input type="text" id="edit_first_name" name="first_name" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_last_name" class="block text-sm font-medium text-gray-700 text-left">Last Name</label>
-                                    <input type="text" id="edit_last_name" name="last_name" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_designation" class="block text-sm font-medium text-gray-700 text-left">Designation</label>
-                                    <input type="text" id="edit_designation" name="designation" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_branch_id" class="block text-sm font-medium text-gray-700 text-left">Branch</label>
-                                    <select id="edit_branch_id" name="branch_id" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                        <option value="" disabled selected>Select Branch</option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_extension_code" class="block text-sm font-medium text-gray-700 text-left">Extension Code</label>
-                                    <input type="text" id="edit_extension_code" name="extension_code" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_personal_mobile" class="block text-sm font-medium text-gray-700 text-left">Personal Mobile</label>
-                                    <input type="text" id="edit_personal_mobile" name="personal_mobile" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                                <div class="grid grid-cols-[1fr_3fr] gap-4">
-                                    <label for="edit_active_status" class="block text-sm font-medium text-gray-700 text-left">Active Status</label>
-                                    <select id="edit_active_status" name="active_status" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                        <option value="" disabled selected>Select Status</option>
-                                        <option value="active">Active</option>
-                                        <option value="disable temporally">Disable Temporally</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
+                            {{-- Form fields similar to create form --}}
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_first_name" class="block text-sm font-medium text-gray-700 text-left">First Name</label>
+                                <input type="text" id="edit_first_name" name="first_name" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_last_name" class="block text-sm font-medium text-gray-700 text-left">Last Name</label>
+                                <input type="text" id="edit_last_name" name="last_name" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_designation" class="block text-sm font-medium text-gray-700 text-left">Designation</label>
+                                <input type="text" id="edit_designation" name="designation" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_branch_id" class="block text-sm font-medium text-gray-700 text-left">Branch</label>
+                                <select id="edit_branch_id" name="branch_id" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    <option value="" disabled selected>Select Branch</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_extension_code" class="block text-sm font-medium text-gray-700 text-left">Extension Code</label>
+                                <input type="text" id="edit_extension_code" name="extension_code" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_personal_mobile" class="block text-sm font-medium text-gray-700 text-left">Personal Mobile</label>
+                                <input type="text" id="edit_personal_mobile" name="personal_mobile" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="grid grid-cols-[1fr_3fr] gap-4">
+                                <label for="edit_active_status" class="block text-sm font-medium text-gray-700 text-left">Active Status</label>
+                                <select id="edit_active_status" name="active_status" class="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="disable temporally">Disable Temporally</option>
+                                </select>
+                            </div>
+                        </form>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button id="updateContactButton" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-900 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -288,6 +287,24 @@
                     }
                 });
             });
+
+            // --- Restrict Search Input to Letters, Spaces, and Numbers ---
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    // Allow letters (a-z, A-Z), numbers (0-9), and spaces
+                    if (!/^[a-zA-Z0-9\s]+$/.test(char)) {
+                        event.preventDefault(); // Prevent typing the character
+                    }
+                });
+            }
+        });
+
+        // Disable pasting into the search input
+        searchInput.addEventListener('paste', function(event) {
+            event.preventDefault();
+            alert('Pasting is disabled in the search field.'); // Optional alert message
         });
     </script>
 </x-app-layout>
