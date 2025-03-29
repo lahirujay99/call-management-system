@@ -127,15 +127,20 @@
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_first_name" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">First Name</label>
                                         <div class="border-l border-gray-300">
-                                            <input type="text" id="edit_first_name" name="first_name" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <input type="text" id="edit_first_name" name="first_name" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                         </div>
                                     </div>
 
-                                    {{-- Designation Dropdown Input Row --}}
+                                    {{-- Designation Dropdown Input Row - CORRECTED to select with designation_id name --}}
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
-                                        <label for="edit_designation" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Designation</label>
+                                        <label for="edit_designation_id" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Designation</label>
                                         <div class="border-l border-gray-300">
-                                            <input type="text" id="edit_designation" name="designation" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <select id="edit_designation_id" name="designation_id" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
+                                                <option value="" disabled selected>Select Designation</option>
+                                                @foreach($designations as $designation)
+                                                    <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
 
@@ -143,7 +148,7 @@
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_extension_code" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Extension Code</label>
                                         <div class="border-l border-gray-300">
-                                            <input type="text" id="edit_extension_code" name="extension_code" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <input type="text" id="edit_extension_code" name="extension_code" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                         </div>
                                     </div>
 
@@ -151,7 +156,7 @@
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_active_status" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Active Status</label>
                                         <div class="border-l border-gray-300">
-                                            <select id="edit_active_status" name="active_status" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <select id="edit_active_status" name="active_status" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                                 <option value="" disabled selected>Select Status</option>
                                                 <option value="active">Active</option>
                                                 <option value="disable temporally">Disable Temporally</option>
@@ -165,15 +170,15 @@
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_last_name" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Last Name</label>
                                         <div class="border-l border-gray-300">
-                                            <input type="text" id="edit_last_name" name="last_name" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <input type="text" id="edit_last_name" name="last_name" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                         </div>
                                     </div>
 
-                                    {{-- Branch Dropdown Input Row --}}
+                                    {{-- Branch Dropdown Input Row - CORRECTED to be select and with branch_id name--}}
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_branch_id" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Branch</label>
                                         <div class="border-l border-gray-300">
-                                            <select id="edit_branch_id" name="branch_id" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <select id="edit_branch_id" name="branch_id" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                                 <option value="" disabled selected>Select Branch</option>
                                                 @foreach($branches as $branch)
                                                     <option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -186,7 +191,7 @@
                                     <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md mb-4">
                                         <label for="edit_personal_mobile" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">Personal Mobile</label>
                                         <div class="border-l border-gray-300">
-                                            <input type="text" id="edit_personal_mobile" name="personal_mobile" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                            <input type="text" id="edit_personal_mobile" name="personal_mobile" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                         </div>
                                     </div>
                                 </div>
@@ -210,6 +215,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const editContactModal = document.getElementById('editContactModal');
@@ -217,6 +223,64 @@
             const editContactForm = document.getElementById('editContactForm');
             const updateContactButton = document.getElementById('updateContactButton');
             let currentContactId = null; // To store the ID of the contact being edited
+
+            const editFirstNameInput = document.getElementById('edit_first_name');
+            const editLastNameInput = document.getElementById('edit_last_name');
+            const editExtensionCodeInput = document.getElementById('edit_extension_code');
+            const editPersonalMobileInput = document.getElementById('edit_personal_mobile');
+
+            const modalInputs = [editFirstNameInput, editLastNameInput, editExtensionCodeInput, editPersonalMobileInput];
+
+            // Loop through each input and add disable paste event listener
+            modalInputs.forEach(inputElement => {
+                if (inputElement) { // Check if element exists before adding listener
+                    inputElement.addEventListener('paste', function(event) {
+                        event.preventDefault();
+                        alert('Pasting is disabled in this field.');
+                    });
+                }
+            });
+
+            // --- Keypress Event Listeners for Input Restriction in Modal ---
+            if (editFirstNameInput) {
+                editFirstNameInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    if (!/^[a-zA-Z\s]+$/.test(char)) { // Only letters and spaces
+                        event.preventDefault();
+                    }
+                });
+            }
+            if (editLastNameInput) {
+                editLastNameInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    if (!/^[a-zA-Z\s]+$/.test(char)) { // Only letters and spaces
+                        event.preventDefault();
+                    }
+                });
+            }
+            if (editExtensionCodeInput) {
+                editExtensionCodeInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    if (!/^[0-9\s]+$/.test(char)) { // Only numbers and spaces
+                        event.preventDefault();
+                    }
+                    if (char === '-') { // Prevent hyphens
+                        event.preventDefault();
+                    }
+                });
+            }
+            if (editPersonalMobileInput) {
+                editPersonalMobileInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    if (!/^[0-9\s]+$/.test(char)) { // Only numbers and spaces
+                        event.preventDefault();
+                    }
+                    if (char === '-') { // Prevent hyphens
+                        event.preventDefault();
+                    }
+                });
+            }
+
 
             // --- Edit Functionality ---
             document.querySelectorAll('.edit-contact-btn').forEach(button => {
@@ -231,11 +295,11 @@
                         }
                         const contactData = await response.json();
 
-                        // Populate the modal form fields
+                        // Populate the modal form fields - CORRECTED POPULATION
                         document.getElementById('edit_first_name').value = contactData.first_name;
                         document.getElementById('edit_last_name').value = contactData.last_name;
-                        document.getElementById('edit_designation').value = contactData.designation;
-                        document.getElementById('edit_branch_id').value = contactData.branch_id;
+                        document.getElementById('edit_designation_id').value = contactData.designation_id; // Set select value by ID
+                        document.getElementById('edit_branch_id').value = contactData.branch_id;       // Set select value by ID
                         document.getElementById('edit_extension_code').value = contactData.extension_code;
                         document.getElementById('edit_personal_mobile').value = contactData.personal_mobile;
                         document.getElementById('edit_active_status').value = contactData.active_status;
@@ -265,21 +329,58 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        // Non-successful HTTP status - handle errors and validation issues
+                        const errorData = await response.json(); // Try to get error response in JSON
+
+                        if (response.status === 422 && errorData.errors) { // Validation errors
+                            let errorMessages = Object.values(errorData.errors).flat().join('<br>');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Error',
+                                html: errorMessages, // Display validation errors using SweetAlert
+                            });
+
+                        } else { // Other server errors
+                            throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+                        }
+                        return; // Stop further execution if error occurred.
+
                     }
 
                     const responseData = await response.json();
                     if (responseData.success) {
-                        alert('Contact updated successfully!');
+                        Swal.fire({  // Use SweetAlert for success
+                            icon: 'success',
+                            title: 'Success!',
+                            text: responseData.success,
+                            timer: 2000,
+                        });
                         editContactModal.classList.add('hidden'); // Hide modal
-                        window.location.reload(); // Reload page to refresh contact list - consider more targeted update
+
+                        // OPTIONAL: Update the table row directly instead of full reload.
+                        // Example (you'll need to adapt selector and data keys to match your table structure):
+                        const updatedContact = responseData.contact; // If your controller sends back the updated contact data
+                        const rowToUpdate = document.querySelector(`.edit-contact-btn[data-contact-id="${currentContactId}"]`).closest('tr');
+                        if (rowToUpdate) {
+                            rowToUpdate.cells[0].textContent = formData.get('first_name'); // Example update first name cell
+                            rowToUpdate.cells[1].textContent = formData.get('last_name'); // Example update last name cell
+                            rowToUpdate.cells[2].textContent = document.querySelector('#edit_designation_id option:checked').textContent; // Designation Name
+                            rowToUpdate.cells[3].textContent = document.querySelector('#edit_branch_id option:checked').textContent; // Branch Name
+                            rowToUpdate.cells[4].textContent = formData.get('extension_code');
+                            rowToUpdate.cells[5].textContent = formData.get('personal_mobile');
+                            rowToUpdate.cells[6].textContent = formData.get('active_status').replace('_', ' ');
+
+                        } else {
+                            window.location.reload(); // Fallback to reload if row not found (less ideal, but works)
+                        }
+
                     } else {
-                        alert('Failed to update contact.');
+                        alert('Failed to update contact.'); // Generic error if success is false (though unlikely now)
                     }
 
                 } catch (error) {
                     console.error("Error updating contact:", error);
-                    alert('Error updating contact.');
+                    alert('Error updating contact: ' + error.message); // Show error message
                 }
             });
 
@@ -289,7 +390,7 @@
             });
 
 
-            // --- Delete Functionality ---
+            // --- Delete Functionality (No changes needed, should still work) ---
             document.querySelectorAll('.delete-contact-btn').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const contactId = event.currentTarget.dataset.contactId;
@@ -324,7 +425,7 @@
                 });
             });
 
-            // --- Restrict Search Input to Letters, Spaces, and Numbers ---
+            // --- Restrict Search Input to Letters, Spaces, and Numbers (No changes needed) ---
             const searchInput = document.getElementById('search');
             if (searchInput) {
                 searchInput.addEventListener('keypress', function(event) {
@@ -337,7 +438,7 @@
             }
         });
 
-        // Disable pasting into the search input
+        // Disable pasting into the search input (No changes needed)
         const searchInput = document.getElementById('search');
         if (searchInput) {
             searchInput.addEventListener('paste', function(event) {

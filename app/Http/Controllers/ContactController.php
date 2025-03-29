@@ -116,6 +116,8 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
+        // Eager load relations to ensure branch_id and designation_id are available in JSON
+        $contact->load('branch', 'designation'); // Explicitly load relations
         return response()->json($contact); // Return contact data as JSON for the modal
     }
 
@@ -140,7 +142,13 @@ class ContactController extends Controller
         ]);
 
         $contact->update($validatedData); // Update the contact
-        return response()->json(['success' => 'Contact updated successfully']); // Return success JSON response
+
+        // Option 1: Return just success message:
+        // return response()->json(['success' => 'Contact updated successfully']);
+
+        // Option 2: Return success message AND updated contact data (for direct table row update in JS):
+        $contact->load('branch', 'designation'); // Reload relations after update if needed to get updated related data
+        return response()->json(['success' => 'Contact updated successfully', 'contact' => $contact]);
     }
 
     /**
