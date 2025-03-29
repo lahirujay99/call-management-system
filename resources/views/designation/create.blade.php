@@ -18,8 +18,6 @@
                                   autocomplete="off">
                                 @csrf
 
-                                <h4 class="text-md font-medium text-gray-700 mb-4">Designation Details</h4> {{-- Subheading for form details --}}
-
                                 {{-- Designation Name Input Row --}}
                                 <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
                                     <label for="name"

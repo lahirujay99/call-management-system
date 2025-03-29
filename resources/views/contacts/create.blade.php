@@ -296,7 +296,7 @@
                     hasErrors = true;
                 }
                 if (!isValidMobile(personalMobileInput.value) && personalMobileInput.value.trim() !== '') {
-                    displayError(personalMobileInput, 'Personal mobile number must be 10 to 12 digits and contain only numbers.');
+                    displayError(personalMobileInput, 'Personal mobile number must have 10 digits and contain only numbers.');
                     hasErrors = true;
                 }
                 if (!isValidExtension(extensionCodeInput.value) && extensionCodeInput.value.trim() !== '') {
