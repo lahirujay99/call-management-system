@@ -390,38 +390,62 @@
             });
 
 
-            // --- Delete Functionality (No changes needed, should still work) ---
+            // --- Delete Functionality (SweetAlert2 Implementation) ---
             document.querySelectorAll('.delete-contact-btn').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const contactId = event.currentTarget.dataset.contactId;
 
-                    if (confirm('Are you sure you want to delete this contact?')) {
-                        try {
-                            const response = await fetch(`/contacts/${contactId}`, {
-                                method: 'DELETE', // Use DELETE method for deletion
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Get CSRF token from meta tag
-                                    'Accept': 'application/json' // Expect JSON response
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch(`/contacts/${contactId}`, {
+                                    method: 'DELETE', // Use DELETE method for deletion
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Get CSRF token from meta tag
+                                        'Accept': 'application/json' // Expect JSON response
+                                    }
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
                                 }
-                            });
+                                const responseData = await response.json();
+                                if (responseData.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Contact has been deleted.',
+                                        'success'
+                                    ).then(() => { // After success alert is closed, reload the page
+                                        window.location.reload();
+                                    });
 
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
+                                } else {
+                                    Swal.fire({ // SweetAlert2 for error
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Failed to delete contact!',
+                                    });
+                                }
+
+
+                            } catch (error) {
+                                console.error("Error deleting contact:", error);
+                                Swal.fire({ // SweetAlert2 for fetch error
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Error deleting contact.',
+                                });
                             }
-                            const responseData = await response.json();
-                            if (responseData.success) {
-                                alert('Contact deleted successfully!');
-                                window.location.reload(); // Reload page to refresh contact list - consider more targeted update
-                            } else {
-                                alert('Failed to delete contact.');
-                            }
-
-
-                        } catch (error) {
-                            console.error("Error deleting contact:", error);
-                            alert('Error deleting contact.');
                         }
-                    }
+                    })
                 });
             });
 
