@@ -35,7 +35,6 @@
                 </div>
             </div>
 
-            {{-- Designation Input Row --}}
             {{-- Designation Dropdown Input Row --}}
             <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
                 <label for="designation_id"
@@ -275,6 +274,20 @@
                 }
             });
 
+
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- SweetAlert2 for Success Message after Form Submission ---
+            @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                timer: 2000, // Optional: Auto-close after 2 seconds (adjust as needed)
+            });
+            @endif
 
         });
     </script>
