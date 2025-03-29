@@ -26,7 +26,7 @@
                                     </label>
                                     <div class="border-l border-gray-300">
                                         <input type="text" id="name" name="name"
-                                               class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none">
+                                               class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                     </div>
                                 </div>
 
@@ -125,51 +125,56 @@
         </div>
     </div>
 
-    {{-- Edit Designation Modal (No changes) --}}
+    {{-- Edit Designation Modal -  Styled Like Branch Edit Modal --}}
     <div id="editDesignationModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title"
          role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
             <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"> {{-- Kept `sm:max-w-lg` to match branch modal width --}}
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="modal-title"> {{-- Heading Style - consistent with branch modal --}}
                         Edit Designation
                     </h3>
                     <div class="mt-2">
-                        <form id="editDesignationForm" class="space-y-6">
+                        <form id="editDesignationForm" class="space-y-6"> {{-- space-y-6 for form spacing --}}
                             @csrf
                             @method('PUT') {{-- Method spoofing for PUT request --}}
 
-                            {{-- Designation Name Input Row --}}
-                            <div class="grid grid-cols-1 gap-4">
+                            {{-- Designation Name Input Row -  Styled like Branch Modal --}}
+                            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md"> {{-- Grid and border styles from branch modal --}}
                                 <label for="edit_designation_name"
-                                       class="block text-sm font-medium text-gray-700 text-left">Designation
-                                    Name</label>
-                                <input type="text" id="edit_designation_name" name="name"
-                                       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2"> {{-- Label Styles from branch modal --}}
+                                    Designation Name
+                                </label>
+                                <div class="border-l border-gray-300">
+                                    <input type="text" id="edit_designation_name" name="name"
+                                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;"> {{-- Input Styles & Restrictions - consistent with branch modal --}}
+                                </div>
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button id="updateDesignationButton" type="button"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Update
-                    </button>
-                    <button id="cancelEditDesignationModalButton" type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-5"> {{-- Button Container with gap --}}
+                        <button id="updateDesignationButton" type="button"
+                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-[#F9F7F7] bg-[#112D4E] hover:bg-[#3F72AF] w-full sm:w-auto sm:text-sm"> {{-- Button Style - consistent with branch modal --}}
+                            Update
+                        </button>
+                        <button id="cancelEditDesignationModalButton" type="button"
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"> {{-- Cancel Button Style - consistent with branch modal --}}
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Disable Paste Functionality for Designation Name Input ---
+            // --- Disable Paste Functionality for Designation Name Input in Add Form ---
             const designationNameInput = document.getElementById('name');
             if (designationNameInput) {
                 designationNameInput.addEventListener('paste', function (event) {
@@ -206,7 +211,7 @@
             const addDesignationForm = document.getElementById('addDesignationForm'); // Form ID for Add Designation Form
             const designationNameInputValidation = document.getElementById('name'); // Input field in Add Designation Form
 
-            // --- Keypress Event Listener for Designation Name Input Restriction ---
+            // --- Keypress Event Listener for Designation Name Input Restriction in Add Form ---
             designationNameInputValidation.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
@@ -215,7 +220,7 @@
                 }
             });
 
-            // --- Input Event Listener for Designation Name Error Display ---
+            // --- Input Event Listener for Designation Name Error Display in Add Form ---
             designationNameInputValidation.addEventListener('input', function() {
                 if (!isValidDesignationName(this.value)) {
                     displayError(this, 'Only letters and spaces are allowed in designation name.'); // Specific error message for designation name
@@ -248,6 +253,26 @@
             const editDesignationForm = document.getElementById('editDesignationForm');
             const updateDesignationButton = document.getElementById('updateDesignationButton');
             let currentDesignationId = null;
+            const editDesignationNameInputModal = document.getElementById('edit_designation_name'); // Modal input
+
+            // --- Disable Paste in Edit Modal Input ---
+            if (editDesignationNameInputModal) {
+                editDesignationNameInputModal.addEventListener('paste', function(event) {
+                    event.preventDefault();
+                    alert('Pasting is disabled in this field.');
+                });
+            }
+
+            // --- Keypress Restriction in Edit Modal Input ---
+            if (editDesignationNameInputModal) {
+                editDesignationNameInputModal.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    if (!/^[a-zA-Z\s]+$/.test(char)) { // Only letters and spaces
+                        event.preventDefault();
+                    }
+                });
+            }
+
 
             document.querySelectorAll('.edit-designation-btn').forEach(button => {
                 button.addEventListener('click', async (event) => {
