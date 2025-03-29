@@ -11,8 +11,9 @@
                         <hr class="border-b border-gray-200 mb-6">
 
                         @if (session('success'))
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                                 role="alert">
+                            <div
+                                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                                role="alert">
                                 <strong class="font-bold">Success!</strong>
                                 <span class="block sm:inline">{{ session('success') }}</span>
                             </div>
@@ -30,7 +31,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('designation.store') }}" method="POST" class="space-y-6">
+                        <form action="{{ route('designation.store') }}" method="POST" class="space-y-6" autocomplete="off">
                             @csrf
 
                             <h3 class="text-lg font-medium text-gray-700 mb-4">Designation Details</h3>
@@ -66,9 +67,16 @@
                             <form action="{{ route('designation.index') }}" method="GET">
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                  clip-rule="evenodd"></path>
+                                        </svg>
                                     </div>
-                                    <input type="search" id="default-search" name="search" value="{{ $search ?? '' }}" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Designation name..." >
+                                    <input type="search" id="default-search" name="search" value="{{ $search ?? '' }}"
+                                           class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           placeholder="Search Designation name...">
                                 </div>
                             </form>
                         </div>
@@ -78,13 +86,16 @@
                             <table class="min-w-full divide-y divide-gray-200 table-auto">
                                 <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Name
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Created At
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
@@ -95,13 +106,21 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $designation->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $designation->created_at->format('Y-m-d H:i:s') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button data-designation-id="{{ $designation->id }}" class="edit-designation-btn text-indigo-600 hover:text-indigo-900 mr-2">Edit</button>
-                                            <button data-designation-id="{{ $designation->id }}" class="delete-designation-btn text-red-600 hover:text-red-900">Delete</button>
+                                            <button data-designation-id="{{ $designation->id }}"
+                                                    class="edit-designation-btn text-indigo-600 hover:text-indigo-900 mr-2">
+                                                Edit
+                                            </button>
+                                            <button data-designation-id="{{ $designation->id }}"
+                                                    class="delete-designation-btn text-red-600 hover:text-red-900">
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="3">No designations available</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="3">No
+                                            designations available
+                                        </td>
                                     </tr>
                                 @endforelse
                                 </tbody>
@@ -122,11 +141,13 @@
     </div>
 
     {{-- Edit Designation Modal --}}
-    <div id="editDesignationModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="editDesignationModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title"
+         role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                         Edit Designation
@@ -138,17 +159,22 @@
 
                             {{-- Designation Name Input Row --}}
                             <div class="grid grid-cols-1 gap-4">
-                                <label for="edit_designation_name" class="block text-sm font-medium text-gray-700 text-left">Designation Name</label>
-                                <input type="text" id="edit_designation_name" name="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                <label for="edit_designation_name"
+                                       class="block text-sm font-medium text-gray-700 text-left">Designation
+                                    Name</label>
+                                <input type="text" id="edit_designation_name" name="name"
+                                       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button id="updateDesignationButton" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button id="updateDesignationButton" type="button"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Update
                     </button>
-                    <button id="cancelEditDesignationModalButton" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button id="cancelEditDesignationModalButton" type="button"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Cancel
                     </button>
                 </div>
@@ -158,6 +184,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Disable Paste Functionality for Designation Name Input ---
+            const designationNameInput = document.getElementById('name');
+            if (designationNameInput) {
+                designationNameInput.addEventListener('paste', function (event) {
+                    event.preventDefault();
+                    alert('Pasting is disabled in this field.'); // Optional alert message
+                });
+            }
+
             // --- Edit Designation Functionality ---
             const editDesignationModal = document.getElementById('editDesignationModal');
             const cancelEditDesignationModalButton = document.getElementById('cancelEditDesignationModalButton');
@@ -277,4 +312,5 @@
             });
         });
     </script>
+
 </x-app-layout>

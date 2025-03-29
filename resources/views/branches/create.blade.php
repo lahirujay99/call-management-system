@@ -31,7 +31,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('branches.store') }}" method="POST" class="space-y-6">
+                        <form action="{{ route('branches.store') }}" method="POST" class="space-y-6" autocomplete="off">
                             @csrf
 
                             <h3 class="text-lg font-medium text-gray-700 mb-4">Branch Details</h3>
@@ -181,7 +181,17 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ... other javascript code ...
+            // --- Disable Paste Functionality for Branch Name Input ---
+            const branchNameInput = document.getElementById('name');
+            if (branchNameInput) {
+                branchNameInput.addEventListener('paste', function(event) {
+                    event.preventDefault();
+                    alert('Pasting is disabled in this field.'); // Optional alert message
+                });
+            }
+
+            // ... rest of your existing javascript code for branch form ...
+            // (Keep the Delete and Edit Functionality scripts unchanged)
 
             // --- Delete Functionality ---
             document.querySelectorAll('.delete-branch-btn').forEach(button => {
@@ -223,93 +233,92 @@
                     }
                 });
             });
-        });
-
-        const editBranchModal = document.getElementById('editBranchModal');
-        const cancelEditBranchModalButton = document.getElementById('cancelEditBranchModalButton');
-        const editBranchForm = document.getElementById('editBranchForm');
-        const updateBranchButton = document.getElementById('updateBranchButton');
-        let currentBranchId = null; // To store the ID of the branch being edited
 
 
-        // --- Edit Functionality ---
-        document.querySelectorAll('.edit-branch-btn').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                currentBranchId = event.currentTarget.dataset.branchId; // Store branch ID
-                const branchId = event.currentTarget.dataset.branchId;
+            const editBranchModal = document.getElementById('editBranchModal');
+            const cancelEditBranchModalButton = document.getElementById('cancelEditBranchModalButton');
+            const editBranchForm = document.getElementById('editBranchForm');
+            const updateBranchButton = document.getElementById('updateBranchButton');
+            let currentBranchId = null; // To store the ID of the branch being edited
 
+
+            // --- Edit Functionality ---
+            document.querySelectorAll('.edit-branch-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    currentBranchId = event.currentTarget.dataset.branchId; // Store branch ID
+                    const branchId = event.currentTarget.dataset.branchId;
+
+                    try {
+                        const response = await fetch(`/branches/${branchId}/edit`); // Fetch branch data for edit
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const branchData = await response.json();
+
+                        // Populate modal form
+                        document.getElementById('edit_branch_name').value = branchData.name;
+
+                        editBranchModal.classList.remove('hidden'); // Show the edit modal
+
+                    } catch (error) {
+                        console.error("Could not fetch branch data:", error);
+                        alert('Failed to load branch details for editing.');
+                    }
+                });
+            });
+
+            updateBranchButton.addEventListener('click', async () => {
+                if (!currentBranchId) return;
+
+                const formData = new FormData(editBranchForm);
                 try {
-                    const response = await fetch(`/branches/${branchId}/edit`); // Fetch branch data for edit
+                    const response = await fetch(`/branches/${currentBranchId}`, { // Use currentBranchId for update URL
+                        method: 'PUT',
+                        headers: {
+                            'X-CSRF-TOKEN': formData.get('_token'),
+                            'Content-Type': 'application/json', // Send data as JSON
+                            'Accept': 'application/json'        // Expect JSON response
+                        },
+                        body: JSON.stringify(Object.fromEntries(formData.entries())) // Convert FormData to JSON
+                    });
+
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    const branchData = await response.json();
 
-                    // Populate modal form
-                    document.getElementById('edit_branch_name').value = branchData.name;
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                        alert(responseData.success); // Success message
 
-                    editBranchModal.classList.remove('hidden'); // Show the edit modal
+                        editBranchModal.classList.add('hidden'); // Hide modal
 
-                } catch (error) {
-                    console.error("Could not fetch branch data:", error);
-                    alert('Failed to load branch details for editing.');
-                }
-            });
-        });
-
-        updateBranchButton.addEventListener('click', async () => {
-            if (!currentBranchId) return;
-
-            const formData = new FormData(editBranchForm);
-            try {
-                const response = await fetch(`/branches/${currentBranchId}`, { // Use currentBranchId for update URL
-                    method: 'PUT',
-                    headers: {
-                        'X-CSRF-TOKEN': formData.get('_token'),
-                        'Content-Type': 'application/json', // Send data as JSON
-                        'Accept': 'application/json'        // Expect JSON response
-                    },
-                    body: JSON.stringify(Object.fromEntries(formData.entries())) // Convert FormData to JSON
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const responseData = await response.json();
-                if (responseData.success) {
-                    alert(responseData.success); // Success message
-
-                    editBranchModal.classList.add('hidden'); // Hide modal
-
-                    // Update the branch name in the table directly (assuming table structure is consistent)
-                    const updatedBranchName = document.getElementById('edit_branch_name').value;
-                    const branchRow = document.querySelector(`.edit-branch-btn[data-branch-id="${currentBranchId}"]`).closest('tr'); // Find row
-                    if (branchRow) {
-                        const nameCell = branchRow.querySelector('td:first-child'); // Assuming name is in the first cell
-                        if (nameCell) {
-                            nameCell.textContent = updatedBranchName; // Update the name in the table
+                        // Update the branch name in the table directly (assuming table structure is consistent)
+                        const updatedBranchName = document.getElementById('edit_branch_name').value;
+                        const branchRow = document.querySelector(`.edit-branch-btn[data-branch-id="${currentBranchId}"]`).closest('tr'); // Find row
+                        if (branchRow) {
+                            const nameCell = branchRow.querySelector('td:first-child'); // Assuming name is in the first cell
+                            if (nameCell) {
+                                nameCell.textContent = updatedBranchName; // Update the name in the table
+                            }
                         }
+
+                    } else {
+                        alert('Failed to update branch: ' + (responseData.message || '')); // Show error message
                     }
 
-                } else {
-                    alert('Failed to update branch: ' + (responseData.message || '')); // Show error message
+                } catch (error) {
+                    console.error("Error updating branch:", error);
+                    alert('Error updating branch: ' + error.message);
                 }
-
-            } catch (error) {
-                console.error("Error updating branch:", error);
-                alert('Error updating branch: ' + error.message);
-            }
-        });
+            });
 
 
-        cancelEditBranchModalButton.addEventListener('click', () => {
-            editBranchModal.classList.add('hidden'); // Hide modal on cancel
-        });
+            cancelEditBranchModalButton.addEventListener('click', () => {
+                editBranchModal.classList.add('hidden'); // Hide modal on cancel
+            });
 
-        document.addEventListener('DOMContentLoaded', () => {
             const addBranchForm = document.getElementById('addBranchForm'); // Form ID for Add Branch Form
-            const branchNameInput = document.getElementById('name'); // Input field in Add Branch Form
+            const branchNameInputValidation = document.getElementById('name'); // Input field in Add Branch Form
 
             // --- Reusable Validation Functions (from contact form - you can put these in a separate .js file for better organization if needed) ---
             function displayError(inputElement, errorMessage) { /* ... (your existing displayError function) ... */
@@ -325,7 +334,7 @@
             }
 
             // --- Keypress Event Listener for Branch Name Input Restriction ---
-            branchNameInput.addEventListener('keypress', function (event) {
+            branchNameInputValidation.addEventListener('keypress', function (event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
                 if (!isValidBranchName(newValue)) {
@@ -334,7 +343,7 @@
             });
 
             // --- Input Event Listener for Branch Name Error Display ---
-            branchNameInput.addEventListener('input', function () {
+            branchNameInputValidation.addEventListener('input', function () {
                 if (!isValidBranchName(this.value)) {
                     displayError(this, 'Only letters and spaces are allowed in branch name.'); // Specific error message for branch name
                 } else {
@@ -344,12 +353,12 @@
 
             // --- Form Submission Validation for Add Branch Form ---
             addBranchForm.addEventListener('submit', function (event) {
-                clearError(branchNameInput); // Clear any previous errors
+                clearError(branchNameInputValidation); // Clear any previous errors
 
                 let hasErrors = false;
 
-                if (!isValidBranchName(branchNameInput.value)) {
-                    displayError(branchNameInput, 'Branch name is invalid. Only letters and spaces are allowed.'); // Specific error message
+                if (!isValidBranchName(branchNameInputValidation.value)) {
+                    displayError(branchNameInputValidation, 'Branch name is invalid. Only letters and spaces are allowed.'); // Specific error message
                     hasErrors = true;
                 }
 
@@ -358,6 +367,7 @@
                     alert('Please correct the errors in the form.');
                 }
             });
+
 
         });
 

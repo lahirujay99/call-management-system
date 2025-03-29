@@ -4,7 +4,7 @@
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Contact</h2>
         <hr class="border-b border-gray-200 mb-6">
 
-        <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6" autocomplete="off">
             @csrf
 
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
