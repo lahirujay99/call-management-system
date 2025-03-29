@@ -186,44 +186,63 @@
                     const branchId = event.currentTarget.dataset.branchId;
                     const buttonElement = event.currentTarget; // Get the button element
 
-                    if (confirm('Are you sure you want to delete this branch?')) {
-                        try {
-                            const response = await fetch(`/branches/${branchId}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                    'Accept': 'application/json'
-                                }
-                            });
-
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`); // Include status text in error
-                            }
-                            const responseData = await response.json(); // Attempt to parse JSON response
-
-                            if (responseData.success) {
-                                Swal.fire({  // Using SweetAlert2 for delete success
-                                    icon: 'success',
-                                    title: 'Success!',
-                                    text: responseData.success, // Message from server
-                                    timer: 2000,
-
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch(`/branches/${branchId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                        'Accept': 'application/json'
+                                    }
                                 });
 
-                                // Remove the table row instead of full reload (smoother UI)
-                                const rowToRemove = buttonElement.closest('tr'); // Find the closest table row
-                                if (rowToRemove) {
-                                    rowToRemove.remove(); // Remove the row from the DOM
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`); // Include status text in error
                                 }
-                            } else {
-                                alert('Failed to delete branch. ' + (responseData.message || '')); // Show server message if available
-                            }
+                                const responseData = await response.json(); // Attempt to parse JSON response
 
-                        } catch (error) {
-                            console.error("Error deleting branch:", error);
-                            alert('Error deleting branch: ' + error.message); // Show error message
+                                if (responseData.success) {
+                                    Swal.fire({  // Using SweetAlert2 for delete success
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: responseData.success, // Message from server
+                                        timer: 2000,
+
+                                    }).then(() => {
+                                        // Remove the table row instead of full reload (smoother UI)
+                                        const rowToRemove = buttonElement.closest('tr'); // Find the closest table row
+                                        if (rowToRemove) {
+                                            rowToRemove.remove(); // Remove the row from the DOM
+                                        }
+                                    });
+
+                                } else {
+                                    Swal.fire({  // SweetAlert2 for delete failure
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Failed to delete branch. ' + (responseData.message || ''),
+                                    });
+                                }
+
+                            } catch (error) {
+                                console.error("Error deleting branch:", error);
+                                Swal.fire({  // SweetAlert2 for fetch error
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Error deleting branch: ' + error.message,
+                                });
+                            }
                         }
-                    }
+                    });
                 });
             });
 

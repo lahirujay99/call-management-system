@@ -57,7 +57,7 @@
     <div id="myCarousel" class="carousel carousel-fade slide relative" data-ride="carousel" data-interval="3000"> {{-- carousel, carousel-fade, slide equivalent --}}
         <div class="carousel-inner relative w-full overflow-hidden" role="listbox"> {{-- carousel-inner equivalent --}}
             {{-- REMOVED FIRST IMAGE: <div class="item active background a bg-a bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://static.pexels.com/photos/92090/pexels-photo-92090-large.jpeg')"></div> --}}
-            <div class="item active background b bg-b bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/office.jpeg') }}')"></div> {{-- item background b, now ACTIVE as it's the first/only image --}}
+            <div class="item active background b bg-b bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('{{ asset('images/office.jpeg') }}')"></div> {{-- item background b, now ACTIVE as it's the first/only image --}}
             {{-- REMOVED THIRD IMAGE: <div class="item background c bg-c bg-center bg-cover transition-opacity duration-500 ease-in-out" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://static.pexels.com/photos/76827/bahia-ocean-bay-boat-76827-large.jpeg')"></div> --}}
         </div>
     </div>
@@ -116,3 +116,4 @@
 </script>
 </body>
 </html>
+

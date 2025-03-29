@@ -387,19 +387,28 @@
                                         title: 'Deleted!',
                                         text: responseData.success,
                                         timer: 2000,
+                                    }).then(() => {
+                                        const rowToRemove = buttonElement.closest('tr');
+                                        if (rowToRemove) {
+                                            rowToRemove.remove();
+                                        }
                                     });
 
-                                    const rowToRemove = buttonElement.closest('tr');
-                                    if (rowToRemove) {
-                                        rowToRemove.remove();
-                                    }
                                 } else {
-                                    alert('Failed to delete designation. ' + (responseData.message || ''));
+                                    Swal.fire({  // SweetAlert2 for delete failure
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Failed to delete designation. ' + (responseData.message || ''),
+                                    });
                                 }
 
                             } catch (error) {
                                 console.error("Error deleting designation:", error);
-                                alert('Error deleting designation: ' + error.message);
+                                Swal.fire({  // SweetAlert2 for fetch error
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Error deleting designation: ' + error.message,
+                                });
                             }
                         }
                     });
