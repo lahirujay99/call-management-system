@@ -76,7 +76,7 @@
                                     </div>
                                     <input type="search" id="default-search" name="search" value="{{ $search ?? '' }}"
                                            class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                           placeholder="Search Branch name...">
+                                           placeholder="Search Branch name..." autocomplete="off" onpaste="return false;">
                                 </div>
                             </form>
                         </div>
@@ -370,6 +370,21 @@
 
 
         });
+
+        // --- Disable Paste and Autocomplete for Search Input & Restrict Characters ---
+        const branchSearchInput = document.getElementById('default-search'); // Get search input by ID
+        if (branchSearchInput) {
+            branchSearchInput.addEventListener('keypress', function(event) {
+                const char = String.fromCharCode(event.charCode);
+                if (!/^[a-zA-Z0-9\s]+$/.test(char)) {
+                    event.preventDefault();
+                }
+            });
+            branchSearchInput.addEventListener('paste', function(event) {
+                event.preventDefault();
+                alert('Pasting is disabled in the search field.');
+            });
+        }
 
 
     </script>
