@@ -110,8 +110,8 @@
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
             {{-- Increased modal width to max-w-6xl --}}
-            <div class="inline-block align-bottom bg-[#F9F7F7] p-4 rounded-lg shadow-md mt-16 mx-auto max-w-md sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl text-left overflow-hidden md:shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full"> {{-- Responsive Modal Width --}}
-                <div class="bg-[#F9F7F7] px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="inline-block align-bottom bg-[#F9F7F7] md:bg-white p-4 rounded-lg shadow-md mt-16 mx-auto max-w-md sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl text-left overflow-hidden md:shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full"> {{-- Responsive Modal Width --}}
+                <div class="bg-[#F9F7F7] md:bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     {{-- Heading styles --}}
                     <h3 class="text-xl font-semibold text-black mb-4" id="modal-title">
                         Edit Contact
