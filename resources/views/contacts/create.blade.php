@@ -10,40 +10,40 @@
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
 
             {{-- First Name Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="first_name"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     First Name
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <input type="text" id="first_name" name="first_name" required
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
                            onpaste="return false;">
                 </div>
             </div>
 
             {{-- Last Name Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="last_name"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Last Name
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <input type="text" id="last_name" name="last_name" required
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
                            onpaste="return false;">
                 </div>
             </div>
 
             {{-- Designation Dropdown Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="designation_id"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Designation
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <select id="designation_id" name="designation_id" required
-                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
                         <option value="" disabled selected>Select Designation</option>
                         @foreach($designations as $designation)
                             <option value="{{ $designation->id }}">{{ $designation->name }}</option>
@@ -52,14 +52,14 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="branch_id"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Branch
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <select id="branch_id" name="branch_id" required
-                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
                         <option value="" disabled selected>Select Branch</option>
                         @foreach($branches as $branch)
                             <option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -69,40 +69,40 @@
             </div>
 
             {{-- Extension Code Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="extension_code"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Extension Code
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <input type="text" id="extension_code" name="extension_code"
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
                            onpaste="return false;">
                 </div>
             </div>
 
             {{-- Personal Mobile Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="personal_mobile"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Personal Mobile
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <input type="text" id="personal_mobile" name="personal_mobile" required
-                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
                            onpaste="return false;">
                 </div>
             </div>
 
             {{-- Active Status Input Row --}}
-            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="active_status"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                     Active Status
                 </label>
-                <div class="border-l border-gray-300">
+                <div class="md:border-l md:border-gray-300">
                     <select id="active_status" name="active_status" required
-                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none rounded-r-md bg-white focus:outline-none">
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
                         <option value="" disabled selected>Select Status</option>
                         <option value="active">Active</option>
                         <option value="disable temporally">Disable Temporally</option>

@@ -3,9 +3,9 @@
     <div class="pb-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 ">
+                <div class="p-0 md:p-6 mt-5 md:mt-0">
 
-                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl"> {{-- Main container now for both form and table --}}
+                    <div class="bg-white p-4 rounded-lg shadow-md mx-auto max-w-2xl "> {{-- Main container now for both form and table --}}
 
                         <h2 class="text-xl font-semibold text-gray-800 mb-4">Branch Management</h2> {{-- Updated main heading --}}
                         <hr class="border-b border-gray-200 mb-6">
@@ -17,14 +17,14 @@
                                 @csrf
 
                                 {{-- Branch Name Input Row --}}
-                                <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md">
+                                <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                                     <label for="name"
                                            class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
                                         Branch Name
                                     </label>
-                                    <div class="border-l border-gray-300">
+                                    <div class="md:border-l md:border-gray-300">
                                         <input type="text" id="name" name="name"
-                                               class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
+                                               class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none" autocomplete="off" onpaste="return false;">
                                     </div>
                                 </div>
 
@@ -140,14 +140,14 @@
                             @method('PUT') {{-- Method spoofing for PUT request --}}
 
                             {{-- Branch Name Input Row - Styled to match Contact Form and Restrictions --}}
-                            <div class="grid grid-cols-[1fr_4fr] gap-4 border border-gray-300 rounded-md"> {{-- Grid and border styles --}}
+                            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md"> {{-- Grid and border styles --}}
                                 <label for="edit_branch_name"
                                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2"> {{-- Label Styles --}}
                                     Branch Name
                                 </label>
-                                <div class="border-l border-gray-300">
+                                <div class="md:border-l md:border-gray-300">
                                     <input type="text" id="edit_branch_name" name="name" autocomplete="off" onpaste="return false;"
-                                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none rounded-r-md bg-white focus:outline-none"> {{-- Input Styles and input restrictions --}}
+                                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"> {{-- Input Styles and input restrictions --}}
                                 </div>
                             </div>
                         </form>
