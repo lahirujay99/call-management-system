@@ -143,10 +143,7 @@ class ContactController extends Controller
 
         $contact->update($validatedData); // Update the contact
 
-        // Option 1: Return just success message:
-        // return response()->json(['success' => 'Contact updated successfully']);
-
-        // Option 2: Return success message AND updated contact data (for direct table row update in JS):
+        //  Return success message AND updated contact data (for direct table row update in JS):
         $contact->load('branch', 'designation'); // Reload relations after update if needed to get updated related data
         return response()->json(['success' => 'Contact updated successfully', 'contact' => $contact]);
     }
