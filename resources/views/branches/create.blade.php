@@ -131,7 +131,7 @@
             <div
                 class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"> {{-- Removed `sm:max-w-lg` for potentially wider modal --}}
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="modal-title"> {{-- Applied heading style from contact form --}}
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="modal-title"> {{--  heading style --}}
                         Edit Branch
                     </h3>
                     <div class="mt-2">
@@ -139,7 +139,7 @@
                             @csrf
                             @method('PUT') {{-- Method spoofing for PUT request --}}
 
-                            {{-- Branch Name Input Row - Styled to match Contact Form and Restrictions --}}
+                            {{-- Branch Name Input Row --}}
                             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md"> {{-- Grid and border styles --}}
                                 <label for="edit_branch_name"
                                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2"> {{-- Label Styles --}}
@@ -154,11 +154,11 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-5"> {{-- Gap added for button spacing--}}
                         <button id="updateBranchButton" type="button"
-                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-[#F9F7F7] bg-[#112D4E] hover:bg-[#3F72AF] w-full sm:w-auto sm:text-sm"> {{-- Button Style from Contact Form --}}
+                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-[#F9F7F7] bg-[#112D4E] hover:bg-[#3F72AF] w-full sm:w-auto sm:text-sm"> {{-- Button Style --}}
                             Update
                         </button>
                         <button id="cancelEditBranchModalButton" type="button"
-                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"> {{-- Button Style from Contact Form (Cancel Button) --}}
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"> {{-- Button Style (Cancel Button) --}}
                             Cancel
                         </button>
                     </div>

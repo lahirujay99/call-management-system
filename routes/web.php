@@ -27,9 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');      // Route for updating contact
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');   // Route for deleting contact
 
-//    // Branch Routes
-//    Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create'); // Form to add new branch
-//    Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');      // Handle branch creation
     // Branch Routes
     Route::get('/branches', [BranchController::class, 'index'])->name('branches.index'); // Index to show form and list
     Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
