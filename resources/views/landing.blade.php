@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PS-Call-Center-Management</title>
+    <title>PS Telephone Directory</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,11 +44,11 @@
                             </svg>
                         </button>
                     </div>
-                    <a href="/" class="navbar-brand text-white text-xl md:text-2xl font-bold font-verdana">Dial Direct</a> {{-- navbar-brand with text styles --}}
+{{--                    <a href="/" class="navbar-brand text-white text-xl md:text-2xl font-bold font-verdana">President's Secretary Telephone Directory</a> --}}{{-- navbar-brand with text styles --}}
                 </div>
                 <div class="hidden md:flex space-x-4"> {{-- collapse navbar-collapse equivalent --}}
-                    <a href="#" class="text-white hover:text-gray-200">About</a> {{-- nav navbar-nav items --}}
-                    <a href="#" class="text-white hover:text-gray-200">Contact Us</a>
+{{--                    <a href="#" class="text-white hover:text-gray-200">About</a> --}}{{-- nav navbar-nav items --}}
+{{--                    <a href="#" class="text-white hover:text-gray-200">Contact Us</a>--}}
                 </div>
             </div>
         </div>
@@ -63,8 +63,9 @@
     <div class="covertext absolute top-1/3 left-0 right-0"> {{-- covertext equivalent --}}
         <div class="container mx-auto px-4 sm:px-6 lg:px-8"> {{-- container for covertext content --}}
             <div class="lg:w-10/12 mx-auto"> {{-- col-lg-10 equivalent --}}
-                <h1 class="title text-white text-center text-5xl md:text-6xl font-bold font-verdana">Dial Direct</h1> {{-- title text styles --}}
-                <h3 class="subtitle text-white text-center text-xl md:text-2xl font-verdana mt-2">Connecting Conversations, Delivering Results.</h3> {{-- subtitle text styles --}}
+                <h1 class="title text-white text-center text-5xl md:text-5xl font-bold font-verdana">President's Secretary</h1> {{-- title text styles --}}
+                <h1 class="title text-white text-center text-5xl md:text-4xl font-bold font-verdana">Telephone Directory</h1> {{-- title text styles --}}
+
             </div>
             <div class="explore mt-4 text-center"> {{-- explore styles --}}
                 <a href="{{ route('login') }}">
