@@ -280,7 +280,7 @@
                     const designationId = event.currentTarget.dataset.designationId;
 
                     try {
-                        const response = await fetch(`/designation/${designationId}/edit`);
+                        const response = await fetch(`/tp/designation/${designationId}/edit`);
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
@@ -301,7 +301,7 @@
 
                 const formData = new FormData(editDesignationForm);
                 try {
-                    const response = await fetch(`/designation/${currentDesignationId}`, {
+                    const response = await fetch(`/tp/designation/${currentDesignationId}`, {
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': formData.get('_token'),
@@ -368,7 +368,7 @@
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             try {
-                                const response = await fetch(`/designation/${designationId}`, {
+                                const response = await fetch(`/tp/designation/${designationId}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
