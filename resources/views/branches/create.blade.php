@@ -197,7 +197,7 @@
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             try {
-                                const response = await fetch(`/branches/${branchId}`, {
+                                const response = await fetch(`/tp/branches/${branchId}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -280,7 +280,7 @@
                     const branchId = event.currentTarget.dataset.branchId;
 
                     try {
-                        const response = await fetch(`/branches/${branchId}/edit`); // Fetch branch data for edit
+                        const response = await fetch(`/tp/branches/${branchId}/edit`); // Fetch branch data for edit
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
@@ -303,7 +303,7 @@
 
                 const formData = new FormData(editBranchForm);
                 try {
-                    const response = await fetch(`/branches/${currentBranchId}`, { // Use currentBranchId for update URL
+                    const response = await fetch(`/tp/branches/${currentBranchId}`, { // Use currentBranchId for update URL
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': formData.get('_token'),
