@@ -289,7 +289,7 @@
                     const contactId = event.currentTarget.dataset.contactId;
 
                     try {
-                        const response = await fetch(`/contacts/${contactId}/edit`); // Fetch contact data
+                        const response = await fetch(`/tp/contacts/${contactId}/edit`); // Fetch contact data
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
@@ -318,7 +318,7 @@
 
                 const formData = new FormData(editContactForm);
                 try {
-                    const response = await fetch(`/contacts/${currentContactId}`, {
+                    const response = await fetch(`/tp/contacts/${currentContactId}`, {
                         method: 'PUT', // Use PUT to update
                         headers: {
                             'X-CSRF-TOKEN': formData.get('_token'), // Include CSRF token
@@ -406,7 +406,7 @@
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             try {
-                                const response = await fetch(`/contacts/${contactId}`, {
+                                const response = await fetch(`/tp/contacts/${contactId}`, {
                                     method: 'DELETE', // Use DELETE method for deletion
                                     headers: {
                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Get CSRF token from meta tag
