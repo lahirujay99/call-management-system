@@ -133,8 +133,8 @@
     </div>
 
     {{-- Edit Contact Modal --}}
-    <div id="editContactModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex **items-center** justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"> {{-- ADDED items-center here to center vertically on larger screens and removed items-end --}}
+    <div id="editContactModal" class="hidden fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"> {{-- Added items-center here to center vertically on larger screens and removed items-end --}}
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
             {{-- Increased modal width to max-w-6xl --}}
@@ -145,7 +145,7 @@
                         Edit Contact
                     </h3>
                     <div class="mt-2">
-                        <form id="editContactForm" class="space-y-6">
+                        <form id="editContactForm" class="space-y-6" enctype="multipart/form-data">
                             @csrf
                             @method('PUT') {{-- Method spoofing for PUT request --}}
 
@@ -238,6 +238,41 @@
                                 </div>
                             </div>
 
+                            {{-- Image Upload Section - New Addition --}}
+                            <div class="col-span-1 sm:col-span-2 mt-4">
+                                <div class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md">
+                                    <label for="edit_contact_image" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2 sm:border-b-0">
+                                        Contact Image
+                                    </label>
+                                    <div class="sm:border-l sm:border-gray-300">
+                                        <input type="file" id="edit_contact_image" name="contact_image" accept="image/*"
+                                               class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none sm:rounded-r-md bg-white focus:outline-none">
+                                        <p class="text-xs text-gray-500 mt-1">Upload a new image (JPEG, PNG, JPG, GIF). Max size: 2MB</p>
+                                    </div>
+                                </div>
+
+                                {{-- Image Preview Container --}}
+                                <div id="editImagePreviewContainer" class="mt-4 text-center">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <h4 class="text-sm text-gray-600 mb-2">Current Image</h4>
+                                            <div id="currentImageContainer" class="relative inline-block">
+                                                <img id="currentImage" src="" alt="Current" class="mx-auto h-32 w-32 object-cover rounded-full border border-gray-300">
+                                                <div id="noImagePlaceholder" class="h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto">
+                                                    <span class="text-gray-500 text-2xl">?</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm text-gray-600 mb-2">New Image Preview</h4>
+                                            <div class="relative inline-block">
+                                                <img id="editImagePreview" src="#" alt="Preview" class="mx-auto h-32 w-32 object-cover rounded-full border border-gray-300 hidden">
+                                                <button type="button" id="removeEditImage" class="mt-2 text-red-500 text-sm underline hidden">Remove New Image</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </form>
                     </div>
@@ -270,6 +305,13 @@
             const editLastNameInput = document.getElementById('edit_last_name');
             const editExtensionCodeInput = document.getElementById('edit_extension_code');
             const editPersonalMobileInput = document.getElementById('edit_personal_mobile');
+
+            // Image upload related elements
+            const editContactImageInput = document.getElementById('edit_contact_image');
+            const editImagePreview = document.getElementById('editImagePreview');
+            const removeEditImageBtn = document.getElementById('removeEditImage');
+            const currentImage = document.getElementById('currentImage');
+            const noImagePlaceholder = document.getElementById('noImagePlaceholder');
 
             const modalInputs = [editFirstNameInput, editLastNameInput, editExtensionCodeInput, editPersonalMobileInput];
 
@@ -323,6 +365,59 @@
                 });
             }
 
+            // Handle image preview in edit modal
+            if (editContactImageInput) {
+                editContactImageInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const fileSize = this.files[0].size / 1024 / 1024; // in MB
+                        const fileType = this.files[0].type;
+
+                        // Check file size
+                        if (fileSize > 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'File too large',
+                                text: 'File size exceeds 2MB. Please choose a smaller file.',
+                            });
+                            this.value = ''; // Clear the input
+                            editImagePreview.classList.add('hidden');
+                            removeEditImageBtn.classList.add('hidden');
+                            return;
+                        }
+
+                        // Check file type
+                        if (!fileType.match('image.*')) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid file type',
+                                text: 'Please select an image file (JPEG, PNG, JPG, GIF).',
+                            });
+                            this.value = ''; // Clear the input
+                            editImagePreview.classList.add('hidden');
+                            removeEditImageBtn.classList.add('hidden');
+                            return;
+                        }
+
+                        // Show image preview
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            editImagePreview.src = e.target.result;
+                            editImagePreview.classList.remove('hidden');
+                            removeEditImageBtn.classList.remove('hidden');
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+
+                // Remove image functionality
+                if (removeEditImageBtn) {
+                    removeEditImageBtn.addEventListener('click', function() {
+                        editContactImageInput.value = '';
+                        editImagePreview.classList.add('hidden');
+                        removeEditImageBtn.classList.add('hidden');
+                    });
+                }
+            }
 
             // --- Edit Functionality ---
             document.querySelectorAll('.edit-contact-btn').forEach(button => {
@@ -347,6 +442,22 @@
                         document.getElementById('edit_personal_mobile').value = contactData.personal_mobile;
                         document.getElementById('edit_active_status').value = contactData.active_status;
 
+                        // Reset image fields
+                        editContactImageInput.value = '';
+                        editImagePreview.classList.add('hidden');
+                        removeEditImageBtn.classList.add('hidden');
+
+                        // Show current image if available
+                        if (contactData.image_path) {
+                            currentImage.src = `/${contactData.image_path}`;
+                            currentImage.classList.remove('hidden');
+                            noImagePlaceholder.classList.add('hidden');
+                        } else {
+                            currentImage.classList.add('hidden');
+                            noImagePlaceholder.classList.remove('hidden');
+                            noImagePlaceholder.querySelector('span').textContent = contactData.first_name.charAt(0);
+                        }
+
                         editContactModal.classList.remove('hidden'); // Show the modal
 
                     } catch (error) {
@@ -360,15 +471,16 @@
                 if (!currentContactId) return;
 
                 const formData = new FormData(editContactForm);
+
                 try {
+                    // Since we're potentially sending a file, we need to use FormData instead of JSON
                     const response = await fetch(`/tp/contacts/${currentContactId}`, {
-                        method: 'PUT', // Use PUT to update
+                        method: 'POST', // Use POST instead of PUT for file uploads
                         headers: {
-                            'X-CSRF-TOKEN': formData.get('_token'), // Include CSRF token
-                            'Content-Type': 'application/json', // Specify JSON content type
-                            'Accept': 'application/json'       // Expect JSON response
+                            'X-CSRF-TOKEN': formData.get('_token'),
+                            'X-HTTP-Method-Override': 'PUT', // Tell Laravel this is actually a PUT request
                         },
-                        body: JSON.stringify(Object.fromEntries(formData.entries())) // Send form data as JSON
+                        body: formData // Send as FormData, not JSON
                     });
 
                     if (!response.ok) {
@@ -387,7 +499,6 @@
                             throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
                         }
                         return; // Stop further execution if error occurred.
-
                     }
 
                     const responseData = await response.json();
@@ -400,8 +511,13 @@
                         });
                         editContactModal.classList.add('hidden'); // Hide modal
 
+                        // If the image was updated, we need to refresh the page
+                        if (editContactImageInput.files.length > 0) {
+                            window.location.reload();
+                            return;
+                        }
+
                         // Update the row with the new data
-                        const updatedContact = responseData.contact;
                         const rowToUpdate = document.querySelector(`.edit-contact-btn[data-contact-id="${currentContactId}"]`).closest('tr');
                         if (rowToUpdate) {
                             // With photo column and title column, the indexes have shifted
@@ -415,13 +531,11 @@
                             rowToUpdate.cells[7].textContent = formData.get('personal_mobile');
                             rowToUpdate.cells[8].textContent = formData.get('active_status').replace('_', ' ');
                         } else {
-                            window.location.reload(); // Fallback to reload if row not found (less ideal, but works)
+                            window.location.reload(); // Fallback to reload if row not found
                         }
-
                     } else {
-                        alert('Failed to update contact.'); // Generic error if success is false (though unlikely now)
+                        alert('Failed to update contact.'); // Generic error if success is false
                     }
-
                 } catch (error) {
                     console.error("Error updating contact:", error);
                     alert('Error updating contact: ' + error.message); // Show error message
@@ -470,7 +584,6 @@
                                     ).then(() => { // After success alert is closed, reload the page
                                         window.location.reload();
                                     });
-
                                 } else {
                                     Swal.fire({ // SweetAlert2 for error
                                         icon: 'error',
@@ -478,8 +591,6 @@
                                         text: 'Failed to delete contact!',
                                     });
                                 }
-
-
                             } catch (error) {
                                 console.error("Error deleting contact:", error);
                                 Swal.fire({ // SweetAlert2 for fetch error

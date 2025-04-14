@@ -29,6 +29,9 @@ Route::prefix('tp')->group(function () { //  Wrap your routes in a prefix group 
         Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
         Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
+        // NEW ROUTE: Special route for handling file uploads during contact updates
+        Route::post('/contacts/{contact}/update-with-files', [ContactController::class, 'update'])->name('contacts.update.with.files');
+
         // Branch Routes
         Route::get('/branches', [BranchController::class, 'index'])->name('branches.index');
         Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');

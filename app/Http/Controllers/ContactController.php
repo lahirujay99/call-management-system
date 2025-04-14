@@ -145,7 +145,7 @@ class ContactController extends Controller
     {
         // Validate request data
         $validatedData = $request->validate([
-            'title' => 'required|string|in:Mr,Ms,Mrs', // Add title validation
+            'title' => 'required|string|in:Mr,Ms,Mrs',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'designation_id' => 'required|exists:designations,id',
@@ -153,7 +153,25 @@ class ContactController extends Controller
             'extension_code' => 'nullable|string|max:20',
             'personal_mobile' => 'required|string|max:20',
             'active_status' => 'required|in:active,disable temporally',
+            'contact_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image upload
         ]);
+
+        // Handle image upload if present
+        if ($request->hasFile('contact_image') && $request->file('contact_image')->isValid()) {
+            // Delete old image if exists
+            if ($contact->image_path && file_exists(public_path($contact->image_path))) {
+                unlink(public_path($contact->image_path));
+            }
+
+            $image = $request->file('contact_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            // Store image in public/images/contacts directory
+            $image->move(public_path('images/contacts'), $imageName);
+
+            // Set image path for database
+            $validatedData['image_path'] = 'images/contacts/' . $imageName;
+        }
 
         $contact->update($validatedData);
 
