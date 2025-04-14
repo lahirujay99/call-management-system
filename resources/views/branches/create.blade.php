@@ -303,7 +303,8 @@
 
                 const formData = new FormData(editBranchForm);
                 try {
-                    const response = await fetch(`/tp/branches/${currentBranchId}`, { // Use currentBranchId for update URL
+                    const response = await fetch(`/tp/branches/${currentBranchId}`, {
+                        // Use currentBranchId for update URL
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': formData.get('_token'),
@@ -357,7 +358,7 @@
             const addBranchForm = document.getElementById('addBranchForm'); // Form ID for Add Branch Form
             const branchNameInputValidation = document.getElementById('name'); // Input field in Add Branch Form
 
-            // --- Reusable Validation Functions (from contact form) ---
+            // --- Reusable Validation Functions
             function displayError(inputElement, errorMessage) {
                 let errorSpan = inputElement.nextElementSibling;
                 if (!errorSpan || !errorSpan.classList.contains('error-message')) {

@@ -18,6 +18,9 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                 <tr>
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                        Photo
+                    </th>
                     <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'first_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             First Name
@@ -59,6 +62,15 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                 @forelse($contacts as $contact)
                     <tr>
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @if($contact->image_path)
+                                <img src="{{ asset($contact->image_path) }}" alt="{{ $contact->first_name }}" class="h-10 w-10 rounded-full object-cover">
+                            @else
+                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-500">{{ substr($contact->first_name, 0, 1) }}</span>
+                                </div>
+                            @endif
+                        </td>
                         <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->first_name }}
                         </td>
@@ -106,7 +118,7 @@
 
     {{-- Edit Contact Modal --}}
     <div id="editContactModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="flex **items-center** justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"> {{-- ADDED items-center here to center vertically on larger screens and removed items-end --}}
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
             {{-- Increased modal width to max-w-6xl --}}

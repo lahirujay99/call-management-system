@@ -32,20 +32,33 @@ class ContactController extends Controller
     {
         // 1. Validate the request data
         $validatedData = $request->validate([
-            'first_name' => ['required', 'string', 'max:255'], // Very basic rules
-            'last_name' => ['required', 'string', 'max:255'],  // Very basic rules
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'designation_id' => ['required', 'integer', 'exists:designations,id'],
             'branch_id' => ['required', 'integer', 'exists:branches,id'],
-            'extension_code' => ['nullable', 'string', 'max:10'], // Basic rules
-            'personal_mobile' => ['required', 'string', 'min:10', 'max:12'], // Basic rules
+            'extension_code' => ['nullable', 'string', 'max:10'],
+            'personal_mobile' => ['required', 'string', 'min:10', 'max:12'],
             'active_status' => ['required', 'in:active,disable temporally'],
+            'contact_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Validate uploaded image
         ]);
 
-        // 2. Create a new Contact model instance and fill it with validated data
+        // 2. Handle image upload if present
+        if ($request->hasFile('contact_image') && $request->file('contact_image')->isValid()) {
+            $image = $request->file('contact_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            // Store image in public/images/contacts directory
+            $image->move(public_path('images/contacts'), $imageName);
+
+            // Set image path for database
+            $validatedData['image_path'] = 'images/contacts/' . $imageName;
+        }
+
+        // 3. Create a new Contact model instance and fill it with validated data
         $contact = Contact::create($validatedData);
 
-        // 3. Redirect the user with a success message
-        return redirect()->route('contacts.create')->with('success', 'Contact saved successfully!');
+        // 4. Redirect the user with a success message
+        return redirect()->route('contacts.create')->with('success', 'Contact saved successfully with image!');
     }
 
     /**

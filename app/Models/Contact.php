@@ -21,6 +21,7 @@ class Contact extends Model
         'branch_id',
         'extension_code',
         'personal_mobile',
+        'image_path',
         'active_status',
     ];
 

@@ -4,7 +4,8 @@
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Contact</h2>
         <hr class="border-b border-gray-200 mb-6">
 
-        <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6" autocomplete="off">
+        <!-- Added enctype attribute for file uploads -->
+        <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6" autocomplete="off" enctype="multipart/form-data">
             @csrf
 
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
@@ -94,6 +95,26 @@
                 </div>
             </div>
 
+            {{-- NEW: Contact Image Upload Field --}}
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
+                <label for="contact_image"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Contact Image
+                </label>
+                <div class="md:border-l md:border-gray-300">
+                    <input type="file" id="contact_image" name="contact_image" accept="image/*"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
+                    <p class="text-xs text-gray-500 mt-1">Upload an image (JPEG, PNG, JPG, GIF). Max size: 2MB</p>
+                </div>
+            </div>
+
+            {{-- Preview Image Container --}}
+            <div id="imagePreviewContainer" class="hidden mt-4 text-center">
+                <h4 class="text-sm text-gray-600 mb-2">Image Preview</h4>
+                <img id="imagePreview" src="#" alt="Preview" class="mx-auto h-32 w-32 object-cover rounded-full border border-gray-300">
+                <button type="button" id="removeImage" class="mt-2 text-red-500 text-sm underline">Remove Image</button>
+            </div>
+
             {{-- Active Status Input Row --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="active_status"
@@ -120,6 +141,7 @@
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const contactForm = document.querySelector('form');
@@ -130,7 +152,10 @@
             const designationDropdown = document.getElementById('designation_id');
             const branchDropdown = document.getElementById('branch_id');
             const activeStatusDropdown = document.getElementById('active_status');
-
+            const contactImageInput = document.getElementById('contact_image');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const removeImageBtn = document.getElementById('removeImage');
 
             // Array of input elements where pasting should be disabled
             const noPasteInputs = [firstNameInput, lastNameInput, extensionCodeInput, personalMobileInput];
@@ -142,7 +167,6 @@
                     alert('Pasting is disabled in this field.');
                 });
             });
-
 
             // --- Validation Functions ---
             function isValidExtension(extension) {
@@ -157,7 +181,6 @@
             function isValidName(name) {
                 return /^[a-zA-Z\s]+$/.test(name);
             }
-
 
             function displayError(inputElement, errorMessage) {
                 let errorSpan = inputElement.nextElementSibling;
@@ -179,7 +202,6 @@
             }
 
             // --- Keypress Event Listeners for Input Restriction ---
-
             firstNameInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
@@ -207,7 +229,6 @@
                 }
             });
 
-
             extensionCodeInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
@@ -215,7 +236,6 @@
                     event.preventDefault();
                 }
             });
-
 
             // --- Input Event Listeners for Error Display ---
             firstNameInput.addEventListener('input', function() {
@@ -247,7 +267,6 @@
                 }
             });
 
-
             extensionCodeInput.addEventListener('input', function() {
                 if (!isValidExtension(this.value)) {
                     displayError(this, 'Only numbers are allowed in extension code.');
@@ -256,6 +275,55 @@
                 }
             });
 
+            // --- NEW: Image Upload Preview ---
+            if (contactImageInput) {
+                contactImageInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const fileSize = this.files[0].size / 1024 / 1024; // in MB
+                        const fileType = this.files[0].type;
+
+                        // Check file size
+                        if (fileSize > 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'File too large',
+                                text: 'File size exceeds 2MB. Please choose a smaller file.',
+                            });
+                            this.value = ''; // Clear the input
+                            imagePreviewContainer.classList.add('hidden');
+                            return;
+                        }
+
+                        // Check file type
+                        if (!fileType.match('image.*')) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid file type',
+                                text: 'Please select an image file (JPEG, PNG, JPG, GIF).',
+                            });
+                            this.value = ''; // Clear the input
+                            imagePreviewContainer.classList.add('hidden');
+                            return;
+                        }
+
+                        // Show image preview
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            imagePreviewContainer.classList.remove('hidden');
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+
+                // Remove image functionality
+                if (removeImageBtn) {
+                    removeImageBtn.addEventListener('click', function() {
+                        contactImageInput.value = '';
+                        imagePreviewContainer.classList.add('hidden');
+                    });
+                }
+            }
 
             // --- Form Submission Validation ---
             contactForm.addEventListener('submit', function(event) {
@@ -266,7 +334,6 @@
                 clearError(designationDropdown);
                 clearError(branchDropdown);
                 clearError(activeStatusDropdown);
-
 
                 let hasErrors = false;
 
@@ -285,7 +352,6 @@
                         hasErrors = true;
                     }
                 });
-
 
                 if (!isValidName(firstNameInput.value) && firstNameInput.value.trim() !== '') {
                     displayError(firstNameInput, 'First name is invalid. Only letters and spaces are allowed.');
@@ -306,15 +372,14 @@
 
                 if (hasErrors) {
                     event.preventDefault();
-                    alert('Please correct the errors in the form.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Please correct the errors in the form.',
+                    });
                 }
             });
 
-
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
             // --- SweetAlert2 for Success Message after Form Submission ---
             @if(session('success'))
             Swal.fire({
@@ -324,7 +389,6 @@
                 timer: 2000,
             });
             @endif
-
         });
     </script>
 </x-app-layout>

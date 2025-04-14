@@ -63,13 +63,13 @@
     <div class="covertext absolute top-1/3 left-0 right-0"> {{-- covertext equivalent --}}
         <div class="container mx-auto px-4 sm:px-6 lg:px-8"> {{-- container for covertext content --}}
             <div class="lg:w-10/12 mx-auto"> {{-- col-lg-10 equivalent --}}
-                <h1 class="title text-white text-center text-5xl md:text-5xl font-bold font-verdana">President's Secretary</h1> {{-- title text styles --}}
-                <h1 class="title text-white text-center text-5xl md:text-4xl font-bold font-verdana">Telephone Directory</h1> {{-- title text styles --}}
+                <h1 class="title text-white text-center text-5xl md:text-5xl font-bold font-verdana">Presidential Secretariat</h1> {{-- title text styles --}}
+                <h1 class="title text-white text-center text-5xl md:text-4xl font-bold font-verdana">eContact Directory</h1> {{-- title text styles --}}
 
             </div>
             <div class="explore mt-4 text-center"> {{-- explore styles --}}
                 <a href="{{ route('login') }}">
-                    <button type="button" class="explorebtn bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-full text-lg">Login</button> {{-- explorebtn with Tailwind button styles --}}
+                    <button type="button" class="explorebtn bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-full text-lg w-60">Login</button> {{-- explorebtn with Tailwind button styles --}}
                 </a>
             </div>
         </div>
