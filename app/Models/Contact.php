@@ -15,6 +15,7 @@ class Contact extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'title',
         'first_name',
         'last_name',
         'designation_id', // Changed from 'designation' to 'designation_id'

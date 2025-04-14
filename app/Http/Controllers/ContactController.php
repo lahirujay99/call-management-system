@@ -32,6 +32,7 @@ class ContactController extends Controller
     {
         // 1. Validate the request data
         $validatedData = $request->validate([
+            'title' => ['required', 'string', 'in:Mr,Ms,Mrs'], // Validate title
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'designation_id' => ['required', 'integer', 'exists:designations,id'],
@@ -39,7 +40,7 @@ class ContactController extends Controller
             'extension_code' => ['nullable', 'string', 'max:10'],
             'personal_mobile' => ['required', 'string', 'min:10', 'max:12'],
             'active_status' => ['required', 'in:active,disable temporally'],
-            'contact_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Validate uploaded image
+            'contact_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
         // 2. Handle image upload if present
@@ -58,7 +59,7 @@ class ContactController extends Controller
         $contact = Contact::create($validatedData);
 
         // 4. Redirect the user with a success message
-        return redirect()->route('contacts.create')->with('success', 'Contact saved successfully with image!');
+        return redirect()->route('contacts.create')->with('success', 'Contact saved successfully!');
     }
 
     /**
@@ -69,18 +70,19 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Contact::query()->with('branch', 'designation'); // Eager load 'branch' and 'designation' relationship to avoid N+1 query problems
+        $query = Contact::query()->with('branch', 'designation');
 
-        // **Search Functionality**
+        // Search Functionality
         $search = $request->input('search');
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%$search%")
+                $q->where('title', 'like', "%$search%")
+                    ->orWhere('first_name', 'like', "%$search%")
                     ->orWhere('last_name', 'like', "%$search%")
-                    ->orWhereHas('designation', function ($designationQuery) use ($search) { // Search within designation name
+                    ->orWhereHas('designation', function ($designationQuery) use ($search) {
                         $designationQuery->where('name', 'like', "%$search%");
                     })
-                    ->orWhereHas('branch', function ($branchQuery) use ($search) { // Search within the branch name
+                    ->orWhereHas('branch', function ($branchQuery) use ($search) {
                         $branchQuery->where('name', 'like', "%$search%");
                     })
                     ->orWhere('extension_code', 'like', "%$search%")
@@ -88,37 +90,35 @@ class ContactController extends Controller
             });
         }
 
-        // **Sorting Functionality**
+        // Sorting Functionality
         $sortBy = $request->input('sortBy');
-        $sortDirection = $request->input('sortDirection', 'asc'); // Default sorting direction is ascending
+        $sortDirection = $request->input('sortDirection', 'asc');
 
         if ($sortBy) {
             if ($sortBy == 'designation') {
-                // Sort by designation name
                 $query->orderBy(
                     Designation::select('name')
                         ->whereColumn('designations.id', 'contacts.designation_id'),
                     $sortDirection
                 );
             } else if ($sortBy == 'branch') {
-                // Sort by branch name
                 $query->orderBy(
                     Branch::select('name')
                         ->whereColumn('branches.id', 'contacts.branch_id'),
                     $sortDirection
                 );
             } else {
-                $query->orderBy($sortBy, $sortDirection); // Sort by other contact fields
+                $query->orderBy($sortBy, $sortDirection);
             }
         } else {
-            $query->latest('created_at'); // Default sorting: newest contacts first
+            $query->latest('created_at');
         }
 
-        $contacts = $query->paginate(8); // Fetch contacts with pagination (adjust number per page as needed)
-        $branches = Branch::all(); // Fetch all branches for dropdown filters (if you intend to use them later for filtering, not sorting in this version)
-        $designations = Designation::all(); // Fetch all designations
+        $contacts = $query->paginate(8);
+        $branches = Branch::all();
+        $designations = Designation::all();
 
-        return view('dashboard', compact('contacts', 'branches', 'designations', 'search')); // Pass data to the dashboard view
+        return view('dashboard', compact('contacts', 'branches', 'designations', 'search'));
     }
 
     /**
@@ -130,8 +130,8 @@ class ContactController extends Controller
     public function edit(Contact $contact)
     {
         // Eager load relations to ensure branch_id and designation_id are available in JSON
-        $contact->load('branch', 'designation'); // Explicitly load relations
-        return response()->json($contact); // Return contact data as JSON for the modal
+        $contact->load('branch', 'designation');
+        return response()->json($contact);
     }
 
     /**
@@ -143,21 +143,22 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        // Validate request data (reuse validation rules from store or modify as needed)
+        // Validate request data
         $validatedData = $request->validate([
+            'title' => 'required|string|in:Mr,Ms,Mrs', // Add title validation
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'designation_id' => 'required|exists:designations,id', // Validation for designation_id
+            'designation_id' => 'required|exists:designations,id',
             'branch_id' => 'required|exists:branches,id',
             'extension_code' => 'nullable|string|max:20',
             'personal_mobile' => 'required|string|max:20',
             'active_status' => 'required|in:active,disable temporally',
         ]);
 
-        $contact->update($validatedData); // Update the contact
+        $contact->update($validatedData);
 
-        //  Return success message AND updated contact data (for direct table row update in JS):
-        $contact->load('branch', 'designation'); // Reload relations after update if needed to get updated related data
+        // Return success message AND updated contact data
+        $contact->load('branch', 'designation');
         return response()->json(['success' => 'Contact updated successfully', 'contact' => $contact]);
     }
 

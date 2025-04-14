@@ -1,8 +1,8 @@
 <x-app-layout>
-    <div class="bg-[#E7F2F8] rounded-lg md:rounded-3xl shadow-md overflow-hidden mx-auto max-w-full lg:max-w-7xl my-6"> {{-- Main OUTER Dashboard Container - Responsive max-width --}}
-        <div class="px-4 py-3 border-gray-300 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-[#E7F2F8] rounded-t-lg"> {{-- Stacked Search and Button on Mobile --}}
+    <div class="bg-[#E7F2F8] rounded-lg md:rounded-3xl shadow-md overflow-hidden mx-auto max-w-full lg:max-w-7xl my-6">
+        <div class="px-4 py-3 border-gray-300 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-[#E7F2F8] rounded-t-lg">
             {{-- Search Bar --}}
-            <div class="relative w-full sm:w-5/6"> {{-- Full width on mobile, 5/6 on sm and up --}}
+            <div class="relative w-full sm:w-5/6">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
@@ -14,47 +14,56 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-bl-2xl rounded-br-2xl overflow-x-auto mt-3"> {{-- INNER Dashboard Container (White Table Area) - Keep overflow-x-auto for horizontal scroll --}}
+        <div class="bg-white rounded-bl-2xl rounded-br-2xl overflow-x-auto mt-3">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                 <tr>
+                    {{-- Photo column (first column) --}}
                     <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         Photo
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+
+                    {{-- Title column (second column) --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                        <a href="{{ route('dashboard', ['sortBy' => 'title', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'title' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                            Title
+                        </a>
+                    </th>
+
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'first_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             First Name
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'last_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'last_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Last Name
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'designation', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'designation' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Designation
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'branch', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'branch' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Branch
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'extension_code', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'extension_code' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Extension
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         <a href="{{ route('dashboard', ['sortBy' => 'personal_mobile', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Personal Num
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
                         Active Status
                     </th>
-                    <th scope="col" class="relative px-2 sm:px-6 py-3"> {{-- Reduced horizontal padding on smaller screens --}}
+                    <th scope="col" class="relative px-2 sm:px-6 py-3">
                         <span class="sr-only">Edit & Delete</span>
                     </th>
                 </tr>
@@ -62,7 +71,8 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                 @forelse($contacts as $contact)
                     <tr>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{-- Photo column data --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap">
                             @if($contact->image_path)
                                 <img src="{{ asset($contact->image_path) }}" alt="{{ $contact->first_name }}" class="h-10 w-10 rounded-full object-cover">
                             @else
@@ -71,28 +81,34 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> {{-- Reduced horizontal padding on smaller screens --}}
+
+                        {{-- Title column data --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $contact->title ?? 'N/A' }}
+                        </td>
+
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $contact->first_name }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->last_name }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->designation->name ?? "N/A" }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
-                            {{ $contact->branch->name  ?? "N/A" }}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $contact->branch->name ?? "N/A" }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->extension_code }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->personal_mobile }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ ucwords(str_replace('_', ' ', $contact->active_status)) }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             @if(Auth::user()->isAdmin())
                                 <button data-contact-id="{{ $contact->id }}" class="edit-contact-btn text-cyan-600 hover:text-cyan-900 mr-2">Edit</button>
                                 <button data-contact-id="{{ $contact->id }}" class="delete-contact-btn text-red-600 hover:text-red-900">Delete</button>
@@ -101,7 +117,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center" colspan="9">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center" colspan="10">
                             No contacts found matching your search.
                         </td>
                     </tr>
@@ -109,9 +125,8 @@
                 </tbody>
             </table>
             <hr class="mt-10 border-gray-400"/>
-            {{-- Numbered Pagination Links --}}
-            <div class="mt-4 px-4 pb-3">  {{-- Container for Pagination Links - removed grid --}}
-                {{ $contacts->links() }}  {{-- Renders numbered pagination links --}}
+            <div class="mt-4 px-4 pb-3">
+                {{ $contacts->links() }}
             </div>
         </div>
     </div>

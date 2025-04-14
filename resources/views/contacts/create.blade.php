@@ -10,6 +10,23 @@
 
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
 
+            {{-- NEW: Title Dropdown Input Row --}}
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
+                <label for="title"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Title
+                </label>
+                <div class="md:border-l md:border-gray-300">
+                    <select id="title" name="title" required
+                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
+                        <option value="" disabled selected>Select Title</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Mrs">Mrs</option>
+                    </select>
+                </div>
+            </div>
+
             {{-- First Name Input Row --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="first_name"
@@ -95,7 +112,7 @@
                 </div>
             </div>
 
-            {{-- NEW: Contact Image Upload Field --}}
+            {{-- Contact Image Upload Field --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="contact_image"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
@@ -145,6 +162,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const contactForm = document.querySelector('form');
+            const titleDropdown = document.getElementById('title');
             const firstNameInput = document.getElementById('first_name');
             const lastNameInput = document.getElementById('last_name');
             const personalMobileInput = document.getElementById('personal_mobile');
@@ -275,7 +293,7 @@
                 }
             });
 
-            // --- NEW: Image Upload Preview ---
+            // --- Image Upload Preview ---
             if (contactImageInput) {
                 contactImageInput.addEventListener('change', function() {
                     if (this.files && this.files[0]) {
@@ -327,6 +345,7 @@
 
             // --- Form Submission Validation ---
             contactForm.addEventListener('submit', function(event) {
+                clearError(titleDropdown);
                 clearError(firstNameInput);
                 clearError(lastNameInput);
                 clearError(personalMobileInput);
@@ -338,6 +357,7 @@
                 let hasErrors = false;
 
                 const requiredFields = [
+                    { input: titleDropdown, message: 'Title is required.' },
                     { input: firstNameInput, message: 'First name is required.' },
                     { input: lastNameInput, message: 'Last name is required.' },
                     { input: designationDropdown, message: 'Designation is required.' },
