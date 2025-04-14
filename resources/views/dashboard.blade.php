@@ -1,8 +1,8 @@
 <x-app-layout>
-    <div class="bg-[#E7F2F8] rounded-lg md:rounded-3xl shadow-md overflow-hidden mx-auto max-w-full lg:max-w-7xl my-6">
-        <div class="px-4 py-3 border-gray-300 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-[#E7F2F8] rounded-t-lg">
+    <div class="bg-[#E7F2F8] rounded-lg md:rounded-3xl shadow-md overflow-hidden mx-auto max-w-full lg:max-w-7xl my-6"> {{-- Main OUTER Dashboard Container - Responsive max-width --}}
+        <div class="px-4 py-3 border-gray-300 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-[#E7F2F8] rounded-t-lg"> {{-- Stacked Search and Button on Mobile --}}
             {{-- Search Bar --}}
-            <div class="relative w-full sm:w-5/6">
+            <div class="relative w-full sm:w-5/6"> {{-- Full width on mobile, 5/6 on sm and up --}}
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-bl-2xl rounded-br-2xl overflow-x-auto mt-3">
+        <div class="bg-white rounded-bl-2xl rounded-br-2xl overflow-x-auto mt-3"> {{-- INNER Dashboard Container (White Table Area) - Keep overflow-x-auto for horizontal scroll --}}
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                 <tr>
@@ -30,40 +30,40 @@
                         </a>
                     </th>
 
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'first_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             First Name
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'last_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'last_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Last Name
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'designation', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'designation' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Designation
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'branch', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'branch' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Branch
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'extension_code', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'extension_code' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Extension
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', ['sortBy' => 'personal_mobile', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc', 'search' => request('search')]) }}">
                             Personal Num
                         </a>
                     </th>
-                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
+                    <th scope="col" class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         Active Status
                     </th>
-                    <th scope="col" class="relative px-2 sm:px-6 py-3">
+                    <th scope="col" class="relative px-2 sm:px-6 py-3"> {{-- Reduced horizontal padding on smaller screens --}}
                         <span class="sr-only">Edit & Delete</span>
                     </th>
                 </tr>
@@ -87,28 +87,28 @@
                             {{ $contact->title ?? 'N/A' }}
                         </td>
 
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->first_name }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->last_name }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->designation->name ?? "N/A" }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $contact->branch->name ?? "N/A" }}
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                            {{ $contact->branch->name  ?? "N/A" }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->extension_code }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->personal_mobile }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ ucwords(str_replace('_', ' ', $contact->active_status)) }}
                         </td>
-                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium"> {{-- Reduced horizontal padding on smaller screens --}}
                             @if(Auth::user()->isAdmin())
                                 <button data-contact-id="{{ $contact->id }}" class="edit-contact-btn text-cyan-600 hover:text-cyan-900 mr-2">Edit</button>
                                 <button data-contact-id="{{ $contact->id }}" class="delete-contact-btn text-red-600 hover:text-red-900">Delete</button>
@@ -125,8 +125,9 @@
                 </tbody>
             </table>
             <hr class="mt-10 border-gray-400"/>
-            <div class="mt-4 px-4 pb-3">
-                {{ $contacts->links() }}
+            {{-- Numbered Pagination Links --}}
+            <div class="mt-4 px-4 pb-3">  {{-- Container for Pagination Links - removed grid --}}
+                {{ $contacts->links() }}  {{-- Renders numbered pagination links --}}
             </div>
         </div>
     </div>
@@ -150,6 +151,19 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> {{-- Switch to single column on smaller screens --}}
                                 <div> {{-- First Column --}}
+                                    {{-- Title Dropdown in Edit Modal --}}
+                                    <div class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md">
+                                        <label for="edit_title" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2 sm:border-b-0">Title</label>
+                                        <div class="sm:border-l sm:border-gray-300">
+                                            <select id="edit_title" name="title" class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black border-none sm:rounded-r-md bg-white focus:outline-none">
+                                                <option value="" disabled>Select Title</option>
+                                                <option value="Mr">Mr</option>
+                                                <option value="Ms">Ms</option>
+                                                <option value="Mrs">Mrs</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     {{-- First Name Input Row --}}
                                     <div class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md"> {{-- Desktop styles conditional --}}
                                         <label for="edit_first_name" class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2 sm:border-b-0">First Name</label> {{-- Remove bottom border on desktop --}}
@@ -251,6 +265,7 @@
             const updateContactButton = document.getElementById('updateContactButton');
             let currentContactId = null; // To store the ID of the contact being edited
 
+            const editTitleSelect = document.getElementById('edit_title');
             const editFirstNameInput = document.getElementById('edit_first_name');
             const editLastNameInput = document.getElementById('edit_last_name');
             const editExtensionCodeInput = document.getElementById('edit_extension_code');
@@ -322,7 +337,8 @@
                         }
                         const contactData = await response.json();
 
-                        // Populate the modal form fields - CORRECTED POPULATION
+                        // Populate the modal form fields
+                        document.getElementById('edit_title').value = contactData.title;
                         document.getElementById('edit_first_name').value = contactData.first_name;
                         document.getElementById('edit_last_name').value = contactData.last_name;
                         document.getElementById('edit_designation_id').value = contactData.designation_id; // Set select value by ID
@@ -384,19 +400,20 @@
                         });
                         editContactModal.classList.add('hidden'); // Hide modal
 
-                        // OPTIONAL: Update the table row directly instead of full reload.
-                        // Example (you'll need to adapt selector and data keys to match your table structure):
-                        const updatedContact = responseData.contact; // If your controller sends back the updated contact data
+                        // Update the row with the new data
+                        const updatedContact = responseData.contact;
                         const rowToUpdate = document.querySelector(`.edit-contact-btn[data-contact-id="${currentContactId}"]`).closest('tr');
                         if (rowToUpdate) {
-                            rowToUpdate.cells[0].textContent = formData.get('first_name'); // Example update first name cell
-                            rowToUpdate.cells[1].textContent = formData.get('last_name'); // Example update last name cell
-                            rowToUpdate.cells[2].textContent = document.querySelector('#edit_designation_id option:checked').textContent; // Designation Name
-                            rowToUpdate.cells[3].textContent = document.querySelector('#edit_branch_id option:checked').textContent; // Branch Name
-                            rowToUpdate.cells[4].textContent = formData.get('extension_code');
-                            rowToUpdate.cells[5].textContent = formData.get('personal_mobile');
-                            rowToUpdate.cells[6].textContent = formData.get('active_status').replace('_', ' ');
-
+                            // With photo column and title column, the indexes have shifted
+                            // Photo image doesn't change in this implementation (would need a file upload in the edit modal)
+                            rowToUpdate.cells[1].textContent = formData.get('title'); // Title is now the second column (index 1)
+                            rowToUpdate.cells[2].textContent = formData.get('first_name'); // First name is now the third column (index 2)
+                            rowToUpdate.cells[3].textContent = formData.get('last_name'); // Last name is now the fourth column (index 3)
+                            rowToUpdate.cells[4].textContent = document.querySelector('#edit_designation_id option:checked').textContent;
+                            rowToUpdate.cells[5].textContent = document.querySelector('#edit_branch_id option:checked').textContent;
+                            rowToUpdate.cells[6].textContent = formData.get('extension_code');
+                            rowToUpdate.cells[7].textContent = formData.get('personal_mobile');
+                            rowToUpdate.cells[8].textContent = formData.get('active_status').replace('_', ' ');
                         } else {
                             window.location.reload(); // Fallback to reload if row not found (less ideal, but works)
                         }
