@@ -10,7 +10,7 @@
 
             <h3 class="text-lg font-medium text-gray-700 mb-4">Personal Details</h3>
 
-            {{-- NEW: Title Dropdown Input Row --}}
+            {{-- Title Dropdown Input Row --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="title"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
@@ -99,14 +99,40 @@
                 </div>
             </div>
 
-            {{-- Personal Mobile Input Row --}}
+            {{-- Personal Mobile Input Row (Primary) --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="personal_mobile"
                        class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
-                    Personal Mobile
+                    Personal Mobile (Primary) *
                 </label>
                 <div class="md:border-l md:border-gray-300">
                     <input type="text" id="personal_mobile" name="personal_mobile" required
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
+                           onpaste="return false;">
+                </div>
+            </div>
+
+            {{-- Personal Mobile 2 Input Row --}}
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
+                <label for="personal_mobile_2"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Personal Mobile 2 (Optional)
+                </label>
+                <div class="md:border-l md:border-gray-300">
+                    <input type="text" id="personal_mobile_2" name="personal_mobile_2"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
+                           onpaste="return false;">
+                </div>
+            </div>
+
+            {{-- Personal Mobile 3 Input Row --}}
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
+                <label for="personal_mobile_3"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Personal Mobile 3 (Optional)
+                </label>
+                <div class="md:border-l md:border-gray-300">
+                    <input type="text" id="personal_mobile_3" name="personal_mobile_3"
                            class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none"
                            onpaste="return false;">
                 </div>
@@ -166,6 +192,8 @@
             const firstNameInput = document.getElementById('first_name');
             const lastNameInput = document.getElementById('last_name');
             const personalMobileInput = document.getElementById('personal_mobile');
+            const personalMobile2Input = document.getElementById('personal_mobile_2');
+            const personalMobile3Input = document.getElementById('personal_mobile_3');
             const extensionCodeInput = document.getElementById('extension_code');
             const designationDropdown = document.getElementById('designation_id');
             const branchDropdown = document.getElementById('branch_id');
@@ -176,7 +204,7 @@
             const removeImageBtn = document.getElementById('removeImage');
 
             // Array of input elements where pasting should be disabled
-            const noPasteInputs = [firstNameInput, lastNameInput, extensionCodeInput, personalMobileInput];
+            const noPasteInputs = [firstNameInput, lastNameInput, extensionCodeInput, personalMobileInput, personalMobile2Input, personalMobile3Input];
 
             // Loop through each input and add event listener
             noPasteInputs.forEach(inputElement => {
@@ -247,6 +275,28 @@
                 }
             });
 
+            personalMobile2Input.addEventListener('keypress', function(event) {
+                const char = String.fromCharCode(event.charCode);
+                const newValue = this.value + char;
+
+                if (!/^[0-9]+$/.test(char)) { // Prevent non-digit input
+                    event.preventDefault();
+                } else if (this.value.length >= 12) { // Prevent input beyond 12 digits
+                    event.preventDefault();
+                }
+            });
+
+            personalMobile3Input.addEventListener('keypress', function(event) {
+                const char = String.fromCharCode(event.charCode);
+                const newValue = this.value + char;
+
+                if (!/^[0-9]+$/.test(char)) { // Prevent non-digit input
+                    event.preventDefault();
+                } else if (this.value.length >= 12) { // Prevent input beyond 12 digits
+                    event.preventDefault();
+                }
+            });
+
             extensionCodeInput.addEventListener('keypress', function(event) {
                 const char = String.fromCharCode(event.charCode);
                 const newValue = this.value + char;
@@ -282,6 +332,26 @@
                 }
                 else {
                     clearError(this); // Clear error when valid or empty
+                }
+            });
+
+            personalMobile2Input.addEventListener('input', function() {
+                const mobileValue = this.value;
+
+                if (mobileValue.length > 0 && (mobileValue.length < 10 || !isValidMobile(mobileValue))) {
+                    displayError(this, 'Mobile number must be between 10 and 12 digits and contain only numbers.');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            personalMobile3Input.addEventListener('input', function() {
+                const mobileValue = this.value;
+
+                if (mobileValue.length > 0 && (mobileValue.length < 10 || !isValidMobile(mobileValue))) {
+                    displayError(this, 'Mobile number must be between 10 and 12 digits and contain only numbers.');
+                } else {
+                    clearError(this);
                 }
             });
 
@@ -349,6 +419,8 @@
                 clearError(firstNameInput);
                 clearError(lastNameInput);
                 clearError(personalMobileInput);
+                clearError(personalMobile2Input);
+                clearError(personalMobile3Input);
                 clearError(extensionCodeInput);
                 clearError(designationDropdown);
                 clearError(branchDropdown);
@@ -362,7 +434,7 @@
                     { input: lastNameInput, message: 'Last name is required.' },
                     { input: designationDropdown, message: 'Designation is required.' },
                     { input: branchDropdown, message: 'Branch is required.' },
-                    { input: personalMobileInput, message: 'Personal mobile is required.' },
+                    { input: personalMobileInput, message: 'Primary personal mobile is required.' },
                     { input: activeStatusDropdown, message: 'Active status is required.' },
                 ];
 
@@ -382,9 +454,23 @@
                     hasErrors = true;
                 }
                 if (!isValidMobile(personalMobileInput.value) && personalMobileInput.value.trim() !== '') {
-                    displayError(personalMobileInput, 'Personal mobile number must have 10 digits and contain only numbers.');
+                    displayError(personalMobileInput, 'Personal mobile number must have 10-12 digits and contain only numbers.');
                     hasErrors = true;
                 }
+
+                // Validate optional mobile numbers only if they have been entered
+                const mobile2Value = personalMobile2Input.value.trim();
+                if (mobile2Value !== '' && !isValidMobile(mobile2Value)) {
+                    displayError(personalMobile2Input, 'Mobile number must be 10-12 digits and contain only numbers.');
+                    hasErrors = true;
+                }
+
+                const mobile3Value = personalMobile3Input.value.trim();
+                if (mobile3Value !== '' && !isValidMobile(mobile3Value)) {
+                    displayError(personalMobile3Input, 'Mobile number must be 10-12 digits and contain only numbers.');
+                    hasErrors = true;
+                }
+
                 if (!isValidExtension(extensionCodeInput.value) && extensionCodeInput.value.trim() !== '') {
                     displayError(extensionCodeInput, 'Extension code is invalid. Only numbers are allowed.');
                     hasErrors = true;

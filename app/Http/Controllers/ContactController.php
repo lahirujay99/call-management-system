@@ -32,13 +32,15 @@ class ContactController extends Controller
     {
         // 1. Validate the request data
         $validatedData = $request->validate([
-            'title' => ['required', 'string', 'in:Mr,Ms,Mrs'], // Validate title
+            'title' => ['required', 'string', 'in:Mr,Ms,Mrs'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'designation_id' => ['required', 'integer', 'exists:designations,id'],
             'branch_id' => ['required', 'integer', 'exists:branches,id'],
             'extension_code' => ['nullable', 'string', 'max:10'],
             'personal_mobile' => ['required', 'string', 'min:10', 'max:12'],
+            'personal_mobile_2' => ['nullable', 'string', 'min:10', 'max:12'],
+            'personal_mobile_3' => ['nullable', 'string', 'min:10', 'max:12'],
             'active_status' => ['required', 'in:active,disable temporally'],
             'contact_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
@@ -145,15 +147,17 @@ class ContactController extends Controller
     {
         // Validate request data
         $validatedData = $request->validate([
-            'title' => 'required|string|in:Mr,Ms,Mrs',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'designation_id' => 'required|exists:designations,id',
-            'branch_id' => 'required|exists:branches,id',
-            'extension_code' => 'nullable|string|max:20',
-            'personal_mobile' => 'required|string|max:20',
-            'active_status' => 'required|in:active,disable temporally',
-            'contact_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image upload
+            'title' => ['required', 'string', 'in:Mr,Ms,Mrs'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'designation_id' => ['required', 'integer', 'exists:designations,id'],
+            'branch_id' => ['required', 'integer', 'exists:branches,id'],
+            'extension_code' => ['nullable', 'string', 'max:10'],
+            'personal_mobile' => ['required', 'string', 'min:10', 'max:12'],
+            'personal_mobile_2' => ['nullable', 'string', 'min:10', 'max:12'],
+            'personal_mobile_3' => ['nullable', 'string', 'min:10', 'max:12'],
+            'active_status' => ['required', 'in:active,disable temporally'],
+            'contact_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
         // Handle image upload if present
