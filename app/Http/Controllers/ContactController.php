@@ -64,12 +64,6 @@ class ContactController extends Controller
         return redirect()->route('contacts.create')->with('success', 'Contact saved successfully!');
     }
 
-    /**
-     * Display a listing of the contacts.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
         $query = Contact::query()->with('branch', 'designation');
@@ -90,6 +84,18 @@ class ContactController extends Controller
                     ->orWhere('extension_code', 'like', "%$search%")
                     ->orWhere('personal_mobile', 'like', "%$search%");
             });
+        }
+
+        // NEW: Designation Filter
+        $designationFilter = $request->input('designation_filter');
+        if ($designationFilter) {
+            $query->where('designation_id', $designationFilter);
+        }
+
+        // NEW: Branch Filter
+        $branchFilter = $request->input('branch_filter');
+        if ($branchFilter) {
+            $query->where('branch_id', $branchFilter);
         }
 
         // Sorting Functionality

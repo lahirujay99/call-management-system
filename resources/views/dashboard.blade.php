@@ -1,24 +1,61 @@
 <x-app-layout>
     <div
         class="bg-[#E7F2F8] rounded-lg md:rounded-3xl shadow-md overflow-hidden mx-auto max-w-full lg:max-w-7xl my-6"> {{-- Main OUTER Dashboard Container - Responsive max-width --}}
-        <div
-            class="px-4 py-3 border-gray-300 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-[#E7F2F8] rounded-t-lg"> {{-- Stacked Search and Button on Mobile --}}
-            {{-- Search Bar --}}
-            <div class="relative w-full sm:w-5/6"> {{-- Full width on mobile, 5/6 on sm and up --}}
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                              clip-rule="evenodd"/>
-                    </svg>
+
+        {{-- Search and Filter Bar - Updated to include filters --}}
+        <div class="px-4 py-3 border-gray-300 bg-[#E7F2F8] rounded-t-lg">
+            <form action="{{ route('dashboard') }}" method="GET" id="filterForm">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {{-- Search Bar --}}
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                 fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input type="text" name="search" id="search"
+                               class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                               placeholder="Search" value="{{ $search ?? '' }}" autocomplete="off" onpaste="return false;">
+                    </div>
+
+                    {{-- Designation Filter Dropdown --}}
+                    <div class="relative">
+                        <select id="designation_filter" name="designation_filter"
+                                class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                            <option value="">All Designations</option>
+                            @foreach($designations as $designation)
+                                <option value="{{ $designation->id }}" {{ request('designation_filter') == $designation->id ? 'selected' : '' }}>
+                                    {{ $designation->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Branch Filter Dropdown --}}
+                    <div class="relative">
+                        <select id="branch_filter" name="branch_filter"
+                                class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                            <option value="">All Branches</option>
+                            @foreach($branches as $branch)
+                                <option value="{{ $branch->id }}" {{ request('branch_filter') == $branch->id ? 'selected' : '' }}>
+                                    {{ $branch->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <form action="{{ route('dashboard') }}" method="GET">
-                    <input type="text" name="search" id="search"
-                           class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-2xl leading-5 bg-white shadow-sm placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                           placeholder="Search" value="{{ $search ?? '' }}" autocomplete="off" onpaste="return false;">
-                </form>
-            </div>
+
+                {{-- Hidden fields to preserve sorting when form is submitted --}}
+                @if(request('sortBy'))
+                    <input type="hidden" name="sortBy" value="{{ request('sortBy') }}">
+                @endif
+                @if(request('sortDirection'))
+                    <input type="hidden" name="sortDirection" value="{{ request('sortDirection') }}">
+                @endif
+            </form>
         </div>
 
         <div
@@ -35,44 +72,86 @@
                     {{-- Title column (second column) --}}
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider">
-                        <a href="{{ route('dashboard', ['sortBy' => 'title', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'title' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'title',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'title' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Title
                         </a>
                     </th>
 
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'first_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'first_name',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'first_name' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             First Name
                         </a>
                     </th>
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'last_name', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'last_name' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'last_name',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'last_name' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Last Name
                         </a>
                     </th>
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'designation', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'designation' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'designation',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'designation' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Designation
                         </a>
                     </th>
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'branch', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'branch' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'branch',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'branch' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Branch
                         </a>
                     </th>
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'extension_code', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'extension_code' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'extension_code',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'extension_code' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Extension
                         </a>
                     </th>
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
-                        <a href="{{ route('dashboard', ['sortBy' => 'personal_mobile', 'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc', 'search' => request('search')]) }}">
+                        <a href="{{ route('dashboard', [
+                            'sortBy' => 'personal_mobile',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
                             Personal Num
                         </a>
                     </th>
@@ -154,9 +233,15 @@
                 </tbody>
             </table>
             <hr class="mt-10 border-gray-400"/>
-            {{-- Numbered Pagination Links --}}
+            {{-- Numbered Pagination Links - Updated to preserve all filters --}}
             <div class="mt-4 px-4 pb-3">  {{-- Container for Pagination Links - removed grid --}}
-                {{ $contacts->links() }}  {{-- Renders numbered pagination links --}}
+                {{ $contacts->appends([
+                    'search' => request('search'),
+                    'designation_filter' => request('designation_filter'),
+                    'branch_filter' => request('branch_filter'),
+                    'sortBy' => request('sortBy'),
+                    'sortDirection' => request('sortDirection')
+                ])->links() }}
             </div>
         </div>
     </div>
@@ -375,7 +460,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-5">
@@ -398,6 +482,51 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // New filter handling code
+            const designationFilter = document.getElementById('designation_filter');
+            const branchFilter = document.getElementById('branch_filter');
+            const searchInput = document.getElementById('search');
+            const filterForm = document.getElementById('filterForm');
+
+            // Function to submit the form when any filter changes
+            function submitFilter() {
+                filterForm.submit();
+            }
+
+            // Add event listeners to filters
+            if (designationFilter) {
+                designationFilter.addEventListener('change', submitFilter);
+            }
+
+            if (branchFilter) {
+                branchFilter.addEventListener('change', submitFilter);
+            }
+
+            // Submit form when user presses Enter in search box
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        submitFilter();
+                    }
+                });
+
+                // Existing code for search input restrictions
+                searchInput.addEventListener('keypress', function(event) {
+                    const char = String.fromCharCode(event.charCode);
+                    // Allow letters (a-z, A-Z), numbers (0-9), and spaces
+                    if (!/^[a-zA-Z0-9\s]+$/.test(char)) {
+                        event.preventDefault(); // Prevent typing the character
+                    }
+                });
+
+                searchInput.addEventListener('paste', function(event) {
+                    event.preventDefault();
+                    alert('Pasting is disabled in the search field.');
+                });
+            }
+
+            // --- Existing Edit Contact Modal Code ---
             const editContactModal = document.getElementById('editContactModal');
             const cancelEditModalButton = document.getElementById('cancelEditModalButton');
             const editContactForm = document.getElementById('editContactForm');
@@ -411,7 +540,6 @@
             const editPersonalMobileInput = document.getElementById('edit_personal_mobile');
             const editPersonalMobile2Input = document.getElementById('edit_personal_mobile_2');
             const editPersonalMobile3Input = document.getElementById('edit_personal_mobile_3');
-
 
             // Image upload related elements
             const editContactImageInput = document.getElementById('edit_contact_image');
@@ -690,11 +818,9 @@
                 }
             });
 
-
             cancelEditModalButton.addEventListener('click', () => {
                 editContactModal.classList.add('hidden'); // Hide modal on cancel
             });
-
 
             // --- Delete Functionality (SweetAlert2 Implementation) ---
             document.querySelectorAll('.delete-contact-btn').forEach(button => {
@@ -748,30 +874,9 @@
                                 });
                             }
                         }
-                    })
+                    });
                 });
             });
-
-            // --- Restrict Search Input to Letters, Spaces, and Numbers (No changes needed) ---
-            const searchInput = document.getElementById('search');
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function (event) {
-                    const char = String.fromCharCode(event.charCode);
-                    // Allow letters (a-z, A-Z), numbers (0-9), and spaces
-                    if (!/^[a-zA-Z0-9\s]+$/.test(char)) {
-                        event.preventDefault(); // Prevent typing the character
-                    }
-                });
-            }
         });
-
-        // Disable pasting into the search input (No changes needed)
-        const searchInput = document.getElementById('search');
-        if (searchInput) {
-            searchInput.addEventListener('paste', function (event) {
-                event.preventDefault();
-                alert('Pasting is disabled in the search field.'); // Optional alert message
-            });
-        }
     </script>
 </x-app-layout>
