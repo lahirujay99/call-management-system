@@ -21,6 +21,7 @@ class Contact extends Model
         'designation_id', // Changed from 'designation' to 'designation_id'
         'branch_id',
         'extension_code',
+        'email',
         'personal_mobile',
         'personal_mobile_2',
         'personal_mobile_3',

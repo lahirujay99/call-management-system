@@ -146,6 +146,18 @@
                     <th scope="col"
                         class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
                         <a href="{{ route('dashboard', [
+                            'sortBy' => 'email',
+                            'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'email' ? 'desc' : 'asc',
+                            'search' => request('search'),
+                            'designation_filter' => request('designation_filter'),
+                            'branch_filter' => request('branch_filter')
+                        ]) }}">
+                            Email
+                        </a>
+                    </th>
+                    <th scope="col"
+                        class="px-2 sm:px-6 py-3 text-left text-xs font-medium text-[#112D4E] uppercase tracking-wider"> {{-- Reduced horizontal padding on smaller screens --}}
+                        <a href="{{ route('dashboard', [
                             'sortBy' => 'personal_mobile',
                             'sortDirection' => request('sortDirection') == 'asc' && request('sortBy') == 'personal_mobile' ? 'desc' : 'asc',
                             'search' => request('search'),
@@ -199,6 +211,9 @@
                         </td>
                         <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
                             {{ $contact->extension_code }}
+                        </td>
+                        <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{-- Reduced horizontal padding on smaller screens --}}
+                            {{ $contact->email }}
                         </td>
                         <td class="px-2 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $contact->personal_mobile }}<br>
@@ -320,15 +335,27 @@
 
                                     {{-- Extension Code Input Row --}}
                                     <div
-                                        class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md"> {{-- Desktop styles conditional --}}
+                                        class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md">
                                         <label for="edit_extension_code"
                                                class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2 sm:border-b-0">Extension
-                                            Code</label> {{-- Remove bottom border on desktop --}}
-                                        <div class="sm:border-l sm:border-gray-300"> {{-- Border only on desktop --}}
+                                            Code</label>
+                                        <div class="sm:border-l sm:border-gray-300">
                                             <input type="text" id="edit_extension_code" name="extension_code"
                                                    class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none sm:rounded-r-md bg-white focus:outline-none"
                                                    autocomplete="off"
-                                                   onpaste="return false;"> {{-- Rounded right only on desktop --}}
+                                                   onpaste="return false;">
+                                        </div>
+                                    </div>
+
+                                    {{-- Email Input Row --}}
+                                    <div
+                                        class="mb-4 sm:grid sm:grid-cols-[1fr_4fr] sm:gap-4 sm:border sm:border-gray-300 sm:rounded-md">
+                                        <label for="edit_email"
+                                               class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2 sm:border-b-0">Email</label>
+                                        <div class="sm:border-l sm:border-gray-300">
+                                            <input type="email" id="edit_email" name="email"
+                                                   class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none sm:rounded-r-md bg-white focus:outline-none"
+                                                   autocomplete="off">
                                         </div>
                                     </div>
 
@@ -702,6 +729,7 @@
                         document.getElementById('edit_personal_mobile').value = contactData.personal_mobile;
                         document.getElementById('edit_personal_mobile_2').value = contactData.personal_mobile_2 || '';
                         document.getElementById('edit_personal_mobile_3').value = contactData.personal_mobile_3 || '';
+                        document.getElementById('edit_email').value = contactData.email || ''; // Set email field
                         document.getElementById('edit_active_status').value = contactData.active_status;
 
                         // Reset image fields
@@ -792,7 +820,8 @@
                             rowToUpdate.cells[5].textContent = document.querySelector('#edit_branch_id option:checked').textContent;
                             rowToUpdate.cells[6].textContent = formData.get('extension_code');
                             rowToUpdate.cells[7].textContent = formData.get('personal_mobile');
-                            rowToUpdate.cells[8].textContent = formData.get('active_status').replace('_', ' ');
+                            rowToUpdate.cells[8].textContent = formData.get('email'); // Update email column
+                            rowToUpdate.cells[9].textContent = formData.get('active_status').replace('_', ' ');
 
                             const cell = rowToUpdate.cells[7];
 

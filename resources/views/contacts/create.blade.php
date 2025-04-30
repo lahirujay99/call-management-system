@@ -99,6 +99,18 @@
                 </div>
             </div>
 
+            {{-- Email Input Row --}}
+            <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
+                <label for="email"
+                       class="block py-3 px-3 text-gray-600 text-sm font-medium text-left leading-tight pr-2">
+                    Email
+                </label>
+                <div class="md:border-l md:border-gray-300">
+                    <input type="email" id="email" name="email"
+                           class="shadow-sm py-3 px-3 block w-full sm:text-sm text-black placeholder-black border-none md:rounded-r-md rounded-md bg-white focus:outline-none">
+                </div>
+            </div>
+
             {{-- Personal Mobile Input Row (Primary) --}}
             <div class="grid md:grid-cols-[1fr_4fr] md:gap-4 border border-gray-300 rounded-md">
                 <label for="personal_mobile"
