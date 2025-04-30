@@ -819,12 +819,11 @@
                             rowToUpdate.cells[4].textContent = document.querySelector('#edit_designation_id option:checked').textContent;
                             rowToUpdate.cells[5].textContent = document.querySelector('#edit_branch_id option:checked').textContent;
                             rowToUpdate.cells[6].textContent = formData.get('extension_code');
-                            rowToUpdate.cells[7].textContent = formData.get('personal_mobile');
-                            rowToUpdate.cells[8].textContent = formData.get('email'); // Update email column
-                            rowToUpdate.cells[9].textContent = formData.get('active_status').replace('_', ' ');
-
-                            const cell = rowToUpdate.cells[7];
-
+                            rowToUpdate.cells[7].textContent = formData.get('email') || ''; // Email column (index 7)
+                            
+                            // Update the personal mobile cell separately
+                            const mobileCell = rowToUpdate.cells[8]; // Personal mobile is in the 9th column (index 8)
+                            
                             // Create cell content with all mobile numbers
                             let mobileContent = formData.get('personal_mobile');
                             if (formData.get('personal_mobile_2')) {
@@ -833,8 +832,10 @@
                             if (formData.get('personal_mobile_3')) {
                                 mobileContent += '<br><span class="text-xs text-gray-400">' + formData.get('personal_mobile_3') + '</span>';
                             }
-
-                            cell.innerHTML = mobileContent;
+                            
+                            mobileCell.innerHTML = mobileContent;
+                            
+                            rowToUpdate.cells[9].textContent = formData.get('active_status').replace('_', ' ');
                         } else {
                             window.location.reload(); // Fallback to reload if row not found
                         }
