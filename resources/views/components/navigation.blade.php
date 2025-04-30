@@ -3,12 +3,12 @@
 
         <div class="flex items-center md:w-auto">
             <!-- Desktop Logo (Hidden on mobile, Shown on desktop) -->
-            <div class="hidden md:block md:bg-gray-900 md:rounded-full md:hover:bg-gray-700 md:cursor-pointer">
-                <img src="{{ asset('images/icon.jpeg') }}" alt="Website Logo" class="h-12 w-auto rounded-full"/>
+            <div class="hidden md:block md:bg-gray-900 md:hover:bg-gray-700 md:cursor-pointer">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Website Logo" class="h-12 w-auto"/>
             </div>
             <!-- Mobile Logo (Shown on mobile, Hidden on desktop) -->
-            <div class="block md:hidden md:bg-gray-900 md:rounded-full md:hover:bg-gray-700 md:cursor-pointer">
-                <img src="{{ asset('images/icon.jpeg') }}" alt="Website Logo" class="h-12 w-auto rounded-full"/>
+            <div class="block md:hidden md:bg-gray-900 md:hover:bg-gray-700 md:cursor-pointer">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Website Logo" class="h-12 w-auto"/>
             </div>
         </div>
 
